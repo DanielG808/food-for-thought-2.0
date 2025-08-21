@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main>Food For Thought 2.0</main>;
+  return <main className="font-pacifico">Food For Thought 2.0</main>;
 }
