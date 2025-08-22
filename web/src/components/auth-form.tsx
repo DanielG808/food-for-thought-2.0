@@ -15,7 +15,9 @@ export default function AuthForm() {
 
   return (
     <div className="flex flex-col justify-center space-y-2">
-      <h1 className="text-lg text-foreground/45 font-medium">Sign In:</h1>
+      <h1 className="text-lg text-foreground/45 font-medium">
+        {formType === "sign-in" ? "Sign In:" : "Sign Up:"}
+      </h1>
       <Form className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-1 rounded-md">
         {formType === "sign-in" ? <SignInForm /> : <SignUpForm />}
       </Form>
