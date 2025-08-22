@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className="antialiased">
+        <body className="flex flex-col antialiased w-full min-h-screen">
           <Header />
           {children}
           <Footer />
