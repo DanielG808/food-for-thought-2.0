@@ -17,8 +17,7 @@ export default function AuthForm() {
     <div className="flex flex-col justify-center space-y-2">
       <h1 className="text-lg text-foreground/45 font-medium">Sign In:</h1>
       <Form className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-1 rounded-md">
-        <SignInForm />
-        <SignUpForm />
+        {formType === "sign-in" ? <SignInForm /> : <SignUpForm />}
       </Form>
       <AuthFormToggle formType={formType} toggleForm={toggleForm} />
     </div>
