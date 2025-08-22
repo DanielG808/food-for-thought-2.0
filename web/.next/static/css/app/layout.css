@@ -16,6 +16,7 @@
     --text-sm--line-height: calc(1.25 / 0.875);
     --text-5xl: 3rem;
     --text-5xl--line-height: 1;
+    --radius-md: 0.375rem;
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
     --font-poppins: var(--font-poppins);
@@ -192,6 +193,15 @@
   .min-h-screen {
     min-height: 100vh;
   }
+  .w-36 {
+    width: calc(var(--spacing) * 36);
+  }
+  .w-80 {
+    width: calc(var(--spacing) * 80);
+  }
+  .w-96 {
+    width: calc(var(--spacing) * 96);
+  }
   .w-full {
     width: 100%;
   }
@@ -213,9 +223,64 @@
   .justify-center {
     justify-content: center;
   }
+  .space-y-1 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 1) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 1) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .space-y-2 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .space-y-3 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .rounded-md {
+    border-radius: var(--radius-md);
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
   .border-b {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
+  }
+  .border-foreground-dark {
+    border-color: var(--foreground-dark);
+  }
+  .border-foreground-dark\/15 {
+    border-color: var(--foreground-dark);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--foreground-dark) 15%, transparent);
+    }
+  }
+  .border-foreground-dark\/25 {
+    border-color: var(--foreground-dark);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--foreground-dark) 25%, transparent);
+    }
+  }
+  .border-foreground-dark\/35 {
+    border-color: var(--foreground-dark);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--foreground-dark) 35%, transparent);
+    }
+  }
+  .border-foreground-dark\/45 {
+    border-color: var(--foreground-dark);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--foreground-dark) 45%, transparent);
+    }
   }
   .border-foreground\/15 {
     border-color: var(--foreground);
@@ -223,17 +288,41 @@
       border-color: color-mix(in oklab, var(--foreground) 15%, transparent);
     }
   }
+  .bg-background {
+    background-color: var(--background);
+  }
   .bg-background-dark {
     background-color: var(--background-dark);
   }
+  .bg-background-dark\/35 {
+    background-color: var(--background-dark);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--background-dark) 35%, transparent);
+    }
+  }
+  .bg-background-dark\/85 {
+    background-color: var(--background-dark);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--background-dark) 85%, transparent);
+    }
+  }
   .bg-footer {
     background-color: var(--footer);
+  }
+  .p-1 {
+    padding: calc(var(--spacing) * 1);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
   .pr-2 {
     padding-right: calc(var(--spacing) * 2);
+  }
+  .pb-1 {
+    padding-bottom: calc(var(--spacing) * 1);
+  }
+  .pb-2 {
+    padding-bottom: calc(var(--spacing) * 2);
   }
   .text-center {
     text-align: center;
@@ -249,10 +338,19 @@
     font-size: var(--text-sm);
     line-height: var(--tw-leading, var(--text-sm--line-height));
   }
+  .text-black {
+    color: var(--color-black);
+  }
   .text-black\/20 {
     color: color-mix(in srgb, #000 20%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       color: color-mix(in oklab, var(--color-black) 20%, transparent);
+    }
+  }
+  .text-black\/75 {
+    color: color-mix(in srgb, #000 75%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      color: color-mix(in oklab, var(--color-black) 75%, transparent);
     }
   }
   .antialiased {
@@ -279,6 +377,26 @@
       @media (hover: hover) {
         text-decoration-line: underline;
       }
+    }
+  }
+  .focus\:ring-1 {
+    &:focus {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+  .focus\:ring-foreground-dark\/15 {
+    &:focus {
+      --tw-ring-color: var(--foreground-dark);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--foreground-dark) 15%, transparent);
+      }
+    }
+  }
+  .focus\:outline-0 {
+    &:focus {
+      outline-style: var(--tw-outline-style);
+      outline-width: 0px;
     }
   }
 }
@@ -429,6 +547,11 @@ body {
   font-style: italic;
   font-display: swap;
 }
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
 @property --tw-border-style {
   syntax: "*";
   inherits: false;
@@ -503,9 +626,15 @@ body {
   syntax: "*";
   inherits: false;
 }
+@property --tw-outline-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
+      --tw-space-y-reverse: 0;
       --tw-border-style: solid;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
@@ -522,6 +651,7 @@ body {
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
       --tw-duration: initial;
+      --tw-outline-style: solid;
     }
   }
 }
