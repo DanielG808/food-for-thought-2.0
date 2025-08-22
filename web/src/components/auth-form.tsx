@@ -1,3 +1,4 @@
+import AuthFormToggle from "./auth-form-toggle";
 import Button from "./ui/button";
 import Form from "./ui/form";
 import InputOrTextarea from "./ui/input-or-textarea";
@@ -11,6 +12,7 @@ export default function AuthForm() {
         <InputOrTextarea name="password" />
         <Button className="mt-4">Sign In</Button>
       </Form>
+      <AuthFormToggle />
     </div>
   );
 }
