@@ -1,3 +1,9 @@
+import Logo from "./logo";
+
 export default function Header() {
-  return <div>Header</div>;
+  return (
+    <header className="flex items-center border-b border-foreground/15 bg-background-dark h-24 p-4 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1)]">
+      <Logo />
+    </header>
+  );
 }

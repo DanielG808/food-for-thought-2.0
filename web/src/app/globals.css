@@ -4,12 +4,14 @@
   --foreground: oklch(78.9% 0.154 211.53);
   --foreground-dark: oklch(60.9% 0.126 221.723);
   --background: oklch(98.4% 0.019 200.873);
+  --background-dark: oklch(95.6% 0.045 203.388);
   --font-poppins: "Poppins";
   --font-pacifico: "Pacifico";
 }
 
 @theme inline {
   --color-background: var(--background);
+  --color-background-dark: var(--background-dark);
   --color-foreground: var(--foreground);
   --color-foreground-dark: var(--foreground-dark);
   --font-poppins: var(--font-poppins);
