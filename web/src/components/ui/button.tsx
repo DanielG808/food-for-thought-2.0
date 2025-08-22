@@ -9,7 +9,7 @@ type ButtonProps = {
 
 export default function Button({ children, className }: ButtonProps) {
   const baseStyles =
-    "bg-foreground text-white rounded-sm cursor-pointer hover:bg-foreground-dark duration-100";
+    "bg-foreground text-white py-1 rounded-sm cursor-pointer hover:bg-foreground-dark duration-100";
 
   return <button className={cn(baseStyles, className)}>{children}</button>;
 }
