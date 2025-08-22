@@ -1,3 +1,10 @@
+import AuthForm from "@/components/auth-form";
+import PageContentWrapper from "@/components/page-content-wrapper";
+
 export default function SignInPage() {
-  return <div>SignInPage</div>;
+  return (
+    <PageContentWrapper>
+      <AuthForm />
+    </PageContentWrapper>
+  );
 }
