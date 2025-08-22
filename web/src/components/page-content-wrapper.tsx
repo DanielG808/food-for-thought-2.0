@@ -5,5 +5,5 @@ type PageContentWrapperProps = {
 export default function PageContentWrapper({
   children,
 }: PageContentWrapperProps) {
-  return <main className="p-4">{children}</main>;
+  return <main>{children}</main>;
 }
