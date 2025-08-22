@@ -3,7 +3,7 @@ import PageContentWrapper from "@/components/page-content-wrapper";
 
 export default function SignInPage() {
   return (
-    <PageContentWrapper>
+    <PageContentWrapper className="flex items-center justify-center">
       <AuthForm />
     </PageContentWrapper>
   );
