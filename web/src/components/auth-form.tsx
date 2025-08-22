@@ -4,10 +4,11 @@ import InputOrTextarea from "./ui/input-or-textarea";
 
 export default function AuthForm() {
   return (
-    <div className="flex justify-center items-center">
-      <Form className="border border-foreground-dark/15 w-80 bg-background-dark/85 p-4 space-y-2 rounded-md">
+    <div className="flex flex-col justify-center space-y-2">
+      <h1 className="text-lg text-foreground/45 font-medium">Sign In:</h1>
+      <Form className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-2 rounded-md">
         <InputOrTextarea name="username" />
-        <Button />
+        <Button className="mt-1">Sign In</Button>
       </Form>
     </div>
   );
