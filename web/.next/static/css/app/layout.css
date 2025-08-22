@@ -75,8 +75,6 @@
   :root, :host {
     --text-5xl: 3rem;
     --text-5xl--line-height: 1;
-    --text-6xl: 3.75rem;
-    --text-6xl--line-height: 1;
     --default-font-family: var(--font-geist-sans);
     --default-mono-font-family: var(--font-geist-mono);
   }
@@ -237,18 +235,32 @@
     font-size: var(--text-5xl);
     line-height: var(--tw-leading, var(--text-5xl--line-height));
   }
-  .text-6xl {
-    font-size: var(--text-6xl);
-    line-height: var(--tw-leading, var(--text-6xl--line-height));
+  .text-foreground-dark {
+    color: var(--foreground-dark);
   }
   .antialiased {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+  .hover\:text-foreground-dark {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--foreground-dark);
+      }
+    }
+  }
+  .hover\:underline {
+    &:hover {
+      @media (hover: hover) {
+        text-decoration-line: underline;
+      }
+    }
+  }
 }
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground: oklch(78.9% 0.154 211.53);
+  --foreground-dark: oklch(60.9% 0.126 221.723);
+  --background: oklch(98.4% 0.019 200.873);
   --font-pacifico: "Pacifico";
 }
 body {
