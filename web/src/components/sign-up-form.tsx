@@ -5,7 +5,6 @@ export default function SignUpForm() {
   return (
     <>
       <InputOrTextarea name="username" />
-
       <Button className="mt-4">Confirm</Button>
     </>
   );
