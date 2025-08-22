@@ -12,7 +12,7 @@ export default function InputOrTextarea({
   className,
 }: InputOrTextareaProps) {
   const baseStyles =
-    "w-full bg-background text-black/75 p-1 focus:ring-1 focus:ring-foreground-dark/15 focus:outline-0 rounded-md";
+    "w-full bg-background text-black/75 p-1 ring-1 ring-foreground-dark/15 focus:ring-2 focus:ring-foreground-dark/25 focus:outline-0 rounded-md";
   const label = name.charAt(0).toUpperCase() + name.slice(1);
 
   return type === "input" ? (

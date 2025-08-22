@@ -9,7 +9,7 @@ export default function AuthForm() {
       <Form className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-1 rounded-md">
         <InputOrTextarea name="username" />
         <InputOrTextarea name="password" />
-        <Button className="mt-2">Sign In</Button>
+        <Button className="mt-4">Sign In</Button>
       </Form>
     </div>
   );
