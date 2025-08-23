@@ -1,11 +1,30 @@
+import { AuthFormData } from "@/lib/validations/authSchema";
 import Button from "./ui/button";
 import InputOrTextarea from "./ui/input-or-textarea";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
-export default function SignUpForm() {
+type SignUpFormProps = {
+  register: UseFormRegister<AuthFormData>;
+  errors: FieldErrors<AuthFormData>;
+  isSubmitting: boolean;
+};
+
+export default function SignUpForm({
+  register,
+  errors,
+  isSubmitting,
+}: SignUpFormProps) {
   return (
     <>
-      <InputOrTextarea name="username" />
-      <Button className="mt-4">Confirm</Button>
+      <InputOrTextarea
+        name="username"
+        register={register}
+        inputProps={{ autoComplete: "username" }}
+        error={errors.username?.message}
+      />
+      <Button type="submit" className="mt-4">
+        {isSubmitting ? "Checking..." : "Confirm"}
+      </Button>
     </>
   );
 }

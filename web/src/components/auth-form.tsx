@@ -10,10 +10,14 @@ import AuthFormToggle from "./auth-form-toggle";
 // hooks
 import { useAuthFormToggle } from "@/lib/hooks/useAuthFormToggle";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // types
-import { SignInFormData, signInSchema } from "@/lib/validations/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  AuthFormData,
+  signInSchema,
+  usernameCheckSchema,
+} from "@/lib/validations/authSchema";
 
 export default function AuthForm() {
   const { formType, toggleForm } = useAuthFormToggle();
@@ -22,14 +26,23 @@ export default function AuthForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema),
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(
+      formType === "sign-in" ? signInSchema : usernameCheckSchema
+    ),
     defaultValues: { username: "", password: "" },
     mode: "onSubmit",
   });
 
-  async function onSubmit(values: SignInFormData) {
-    console.log("sign-in: ", values);
+  async function onSubmit(values: AuthFormData) {
+    if (formType === "sign-in") {
+      console.log("sign-in: ", {
+        username: values.username,
+        password: "password" in values ? values.password : undefined,
+      });
+    } else {
+      console.log("sign-up username:", values.username);
+    }
   }
 
   return (
@@ -46,7 +59,11 @@ export default function AuthForm() {
             isSubmitting={isSubmitting}
           />
         ) : (
-          <SignUpForm />
+          <SignUpForm
+            register={register}
+            errors={errors}
+            isSubmitting={isSubmitting}
+          />
         )}
       </Form>
       <AuthFormToggle formType={formType} toggleForm={toggleForm} />

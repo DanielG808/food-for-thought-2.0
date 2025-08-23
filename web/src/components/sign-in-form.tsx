@@ -2,11 +2,11 @@ import React from "react";
 import Button from "./ui/button";
 import InputOrTextarea from "./ui/input-or-textarea";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { SignInFormData } from "@/lib/validations/authSchema";
+import { AuthFormData, SignInFormData } from "@/lib/validations/authSchema";
 
 type SignInFormProps = {
-  register: UseFormRegister<SignInFormData>;
-  errors: FieldErrors<SignInFormData>;
+  register: UseFormRegister<AuthFormData>;
+  errors: FieldErrors<AuthFormData>;
   isSubmitting: boolean;
 };
 
@@ -15,6 +15,9 @@ export default function SignInForm({
   errors,
   isSubmitting,
 }: SignInFormProps) {
+  const passwordError = (errors as FieldErrors<SignInFormData>).password
+    ?.message;
+
   return (
     <>
       <InputOrTextarea
@@ -28,7 +31,7 @@ export default function SignInForm({
         register={register}
         inputType="password"
         inputProps={{ autoComplete: "new-password" }}
-        error={errors.password?.message}
+        error={passwordError}
       />
       <Button type={"submit"} className="mt-4">
         {isSubmitting ? "Signing in..." : "Sign In"}
