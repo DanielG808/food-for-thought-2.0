@@ -10,7 +10,7 @@ const usernameCheck = z
   .min(3, "Username must be at least 3 characters.")
   .max(24, "Username must be 24 characters or less.")
   .regex(
-    /^[a-zA-Z0-9]+$/,
+    /^[a-zA-Z0-9_]+$/,
     "Username must consist of only letters, numbers, and underscores."
   );
 

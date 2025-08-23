@@ -1,5 +1,3 @@
-"use client";
-
 // components
 import Form from "./ui/form";
 import FormHeader from "./ui/form-header";

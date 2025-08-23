@@ -11,9 +11,13 @@
   "devDependencies": {
     "prisma": "^5.16.1"
   },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
+  },
   "scripts": {
-    "prisma:migrate": "prisma migrate dev",
-    "prisma:generate": "prisma generate",
-    "prisma:studio": "prisma studio"
+    "migrate": "prisma migrate dev --name init_users",
+    "push": "prisma db push",
+    "generate": "prisma generate",
+    "studio": "prisma studio"
   }
 }

@@ -7,6 +7,11 @@
     "packages/*"
   ],
   "scripts": {
+    "db:status": "npm exec prisma migrate status --schema packages/db/prisma/schema.prisma",
+    "db:migrate": "npm exec prisma migrate dev --schema packages/db/prisma/schema.prisma",
+    "db:push": "npm exec prisma db push --schema packages/db/prisma/schema.prisma",
+    "db:generate": "npm exec prisma generate --schema packages/db/prisma/schema.prisma",
+    "db:studio": "npm exec prisma studio --schema packages/db/prisma/schema.prisma",
     "dev:web": "npm --workspace web run dev",
     "build:web": "npm --workspace web run build",
     "lint": "npm --workspace web run lint",
