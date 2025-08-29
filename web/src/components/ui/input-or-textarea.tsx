@@ -7,6 +7,7 @@ import {
   RegisterOptions,
   UseFormRegister,
 } from "react-hook-form";
+import { formatLabel } from "@/lib/utils/formatLabel";
 
 type BaseProps<TFieldValues extends FieldValues> = {
   register: UseFormRegister<TFieldValues>;
@@ -42,7 +43,7 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>({
     "w-auto bg-background text-black/75 p-1 ring-1 ring-foreground-dark/15 focus:ring-2 focus:ring-foreground-dark/25 focus:outline-0 rounded-md";
   const errorRing = error ? "ring-red-500 focus:ring-red-500" : "";
   const id = String(name);
-  const computedLabel = id.charAt(0).toUpperCase() + id.slice(1);
+  const computedLabel = formatLabel(id);
   const describedBy = error ? `${id}-error` : undefined;
 
   if (variant.type === "textarea") {

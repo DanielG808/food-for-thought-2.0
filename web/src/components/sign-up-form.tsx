@@ -28,54 +28,47 @@ export default function SignUpForm({
   const username = watch("username")?.trim() ?? "";
   const debouncedUsername = useDebounce(username, 400);
 
-  const { checking, availability } = useUsernameCheck(
-    debouncedUsername,
-    errors.username
-  );
-
-  const [usernameConfirmed, setUsernameConfirmed] = useState(false);
-
-  function handleConfirmClick(e: React.FormEvent) {
-    e.preventDefault();
-    if (availability?.available) {
-      setUsernameConfirmed(true);
-    }
-  }
+  const { checking, availability, usernameConfirmed, handleConfirmClick } =
+    useUsernameCheck(debouncedUsername, errors.username);
 
   return (
     <>
-      <InputOrTextarea
-        name="username"
-        register={register}
-        inputProps={{ autoComplete: "username", disabled: usernameConfirmed }}
-        error={errors.username?.message}
-      />
-      <UsernameChecker
-        debouncedUsername={debouncedUsername}
-        checking={checking}
-        availability={availability}
-        error={errors.username}
-      />
+      <div className={`flex flex-col ${usernameConfirmed ? "pb-2" : null}`}>
+        <InputOrTextarea
+          name="username"
+          register={register}
+          inputProps={{ autoComplete: "username", disabled: usernameConfirmed }}
+          error={errors.username?.message}
+        />
+        <UsernameChecker
+          debouncedUsername={debouncedUsername}
+          checking={checking}
+          availability={availability}
+          error={errors.username}
+        />
+      </div>
 
       {usernameConfirmed && (
-        <InputOrTextarea
-          name="email"
-          register={register}
-          inputProps={{ autoComplete: "email" }}
-          error={errors.email?.message}
-        />
-        <InputOrTextarea
-          name="password"
-          register={register}
-          inputProps={{ autoComplete: "password" }}
-          error={errors.password?.message}
-        />
-        <InputOrTextarea
-          name="confirmPassword"
-          register={register}
-          inputProps={{ autoComplete: "confirmPassword" }}
-          error={errors.confirmPassword?.message}
-        />
+        <>
+          <InputOrTextarea
+            name="email"
+            register={register}
+            inputProps={{ autoComplete: "email" }}
+            error={errors.email?.message}
+          />
+          <InputOrTextarea
+            name="password"
+            register={register}
+            inputProps={{ autoComplete: "password" }}
+            error={errors.password?.message}
+          />
+          <InputOrTextarea
+            name="confirmPassword"
+            register={register}
+            inputProps={{ autoComplete: "confirmPassword" }}
+            error={errors.confirmPassword?.message}
+          />
+        </>
       )}
 
       <Button

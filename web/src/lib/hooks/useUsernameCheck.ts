@@ -11,8 +11,21 @@ export function useUsernameCheck(
   debouncedUsername?: string,
   error?: FieldError
 ) {
+  // state
   const [checking, setChecking] = useState(false);
   const [availability, setAvailability] = useState<Availability | null>(null);
+  const [usernameConfirmed, setUsernameConfirmed] = useState(false);
+
+  // helpers
+  function isAvailabilityResponse(d: unknown): d is Availability {
+    if (typeof d !== "object" || d === null) return false;
+    const o = d as { available?: unknown; reason?: unknown };
+    if (o.available === true) return true;
+    if (o.available === false) return o.reason === "taken";
+    if (o.available === null)
+      return o.reason === "invalid" || o.reason === "error";
+    return false;
+  }
 
   const checkUsername = useCallback(
     async (u: string): Promise<Availability> => {
@@ -43,6 +56,13 @@ export function useUsernameCheck(
     []
   );
 
+  function handleConfirmClick(e: React.FormEvent) {
+    e.preventDefault();
+    if (availability?.available) {
+      setUsernameConfirmed(true);
+    }
+  }
+
   useEffect(() => {
     if (!debouncedUsername || error) {
       setAvailability(null);
@@ -67,15 +87,5 @@ export function useUsernameCheck(
     };
   }, [debouncedUsername, error, checkUsername]);
 
-  return { checking, availability };
-}
-
-function isAvailabilityResponse(d: unknown): d is Availability {
-  if (typeof d !== "object" || d === null) return false;
-  const o = d as { available?: unknown; reason?: unknown };
-  if (o.available === true) return true;
-  if (o.available === false) return o.reason === "taken";
-  if (o.available === null)
-    return o.reason === "invalid" || o.reason === "error";
-  return false;
+  return { checking, availability, usernameConfirmed, handleConfirmClick };
 }
