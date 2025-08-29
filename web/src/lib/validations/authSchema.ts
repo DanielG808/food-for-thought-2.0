@@ -14,6 +14,8 @@ const usernameCheck = z
     "Username must consist of only letters, numbers, and underscores."
   );
 
+const email = z.email("Email is required.");
+
 const password = z
   .string()
   .min(1, "Password is required.")
@@ -28,6 +30,20 @@ export const usernameCheckSchema = z.object({
   username: usernameCheck,
 });
 
+export const signUpSchema = z
+  .object({
+    username,
+    email,
+    password,
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"],
+    message: "Passwords must match.",
+  });
+
 export type SignInFormData = z.infer<typeof signInSchema>;
 export type UsernameCheckData = z.infer<typeof usernameCheckSchema>;
-export type AuthFormData = SignInFormData | UsernameCheckData;
+export type SignUpFormData = z.infer<typeof signUpSchema>;
+
+export type AuthFormData = SignInFormData | UsernameCheckData | SignUpFormData;

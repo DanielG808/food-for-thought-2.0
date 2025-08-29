@@ -1,15 +1,16 @@
 // components
 import Button from "./ui/button";
 import InputOrTextarea from "./ui/input-or-textarea";
+import UsernameChecker from "./username-checker";
 
 // hooks
+import { useState } from "react";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { useUsernameCheck } from "@/lib/hooks/useUsernameCheck";
 
 // types
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { AuthFormData } from "@/lib/validations/authSchema";
-import UsernameChecker from "./username-checker";
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 type SignUpFormProps = {
   register: UseFormRegister<AuthFormData>;
@@ -32,15 +33,23 @@ export default function SignUpForm({
     errors.username
   );
 
+  const [usernameConfirmed, setUsernameConfirmed] = useState(false);
+
+  function handleConfirmClick(e: React.FormEvent) {
+    e.preventDefault();
+    if (availability?.available) {
+      setUsernameConfirmed(true);
+    }
+  }
+
   return (
     <>
       <InputOrTextarea
         name="username"
         register={register}
-        inputProps={{ autoComplete: "username" }}
+        inputProps={{ autoComplete: "username", disabled: usernameConfirmed }}
         error={errors.username?.message}
       />
-
       <UsernameChecker
         debouncedUsername={debouncedUsername}
         checking={checking}
@@ -48,8 +57,39 @@ export default function SignUpForm({
         error={errors.username}
       />
 
-      <Button type="submit" className="mt-4">
-        {isSubmitting ? "Confirming..." : "Confirm"}
+      {usernameConfirmed && (
+        <InputOrTextarea
+          name="email"
+          register={register}
+          inputProps={{ autoComplete: "email" }}
+          error={errors.email?.message}
+        />
+        <InputOrTextarea
+          name="password"
+          register={register}
+          inputProps={{ autoComplete: "password" }}
+          error={errors.password?.message}
+        />
+        <InputOrTextarea
+          name="confirmPassword"
+          register={register}
+          inputProps={{ autoComplete: "confirmPassword" }}
+          error={errors.confirmPassword?.message}
+        />
+      )}
+
+      <Button
+        type="submit"
+        onClick={!usernameConfirmed ? handleConfirmClick : undefined}
+        className="mt-4"
+      >
+        {isSubmitting
+          ? usernameConfirmed
+            ? "Submitting..."
+            : "Confirming..."
+          : usernameConfirmed
+          ? "Submit"
+          : "Confirm"}
       </Button>
     </>
   );
