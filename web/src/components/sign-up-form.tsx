@@ -32,8 +32,6 @@ export default function SignUpForm({
     errors.username
   );
 
-  const canShowMessage = !!debouncedUsername && !errors.username;
-
   return (
     <>
       <InputOrTextarea
@@ -43,14 +41,12 @@ export default function SignUpForm({
         error={errors.username?.message}
       />
 
-      {canShowMessage && (
-        <UsernameChecker
-          debouncedUsername={debouncedUsername}
-          checking={checking}
-          availability={availability}
-          error={errors.username}
-        />
-      )}
+      <UsernameChecker
+        debouncedUsername={debouncedUsername}
+        checking={checking}
+        availability={availability}
+        error={errors.username}
+      />
 
       <Button type="submit" className="mt-4">
         {isSubmitting ? "Confirming..." : "Confirm"}
