@@ -1,18 +1,20 @@
 import { AuthFormData } from "@/lib/validations/authSchema";
 import Button from "./ui/button";
 import InputOrTextarea from "./ui/input-or-textarea";
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 type SignUpFormProps = {
   register: UseFormRegister<AuthFormData>;
   errors: FieldErrors<AuthFormData>;
   isSubmitting: boolean;
+  watch: UseFormWatch<AuthFormData>;
 };
 
 export default function SignUpForm({
   register,
   errors,
   isSubmitting,
+  watch,
 }: SignUpFormProps) {
   return (
     <>

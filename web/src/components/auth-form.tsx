@@ -1,3 +1,5 @@
+"use client";
+
 // components
 import Form from "./ui/form";
 import FormHeader from "./ui/form-header";
@@ -24,6 +26,7 @@ export default function AuthForm() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch,
   } = useForm<AuthFormData>({
     resolver: zodResolver(
       formType === "sign-in" ? signInSchema : usernameCheckSchema
@@ -61,6 +64,7 @@ export default function AuthForm() {
             register={register}
             errors={errors}
             isSubmitting={isSubmitting}
+            watch={watch}
           />
         )}
       </Form>
