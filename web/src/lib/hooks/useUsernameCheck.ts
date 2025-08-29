@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { AUTH_ENDPOINTS } from "../constants/endpoints";
 import { FieldError } from "react-hook-form";
 
-type Availability =
+export type Availability =
   | { available: true }
   | { available: false; reason: "taken" }
   | { available: null; reason: "invalid" | "error" };

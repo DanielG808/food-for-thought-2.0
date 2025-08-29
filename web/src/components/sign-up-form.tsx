@@ -9,6 +9,7 @@ import { useUsernameCheck } from "@/lib/hooks/useUsernameCheck";
 // types
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { AuthFormData } from "@/lib/validations/authSchema";
+import UsernameChecker from "./username-checker";
 
 type SignUpFormProps = {
   register: UseFormRegister<AuthFormData>;
@@ -31,14 +32,6 @@ export default function SignUpForm({
     errors.username
   );
 
-  const statusClass = checking
-    ? "text-foreground/60"
-    : availability?.available === true
-    ? "text-green-600"
-    : availability?.available === false
-    ? "text-red-600"
-    : "";
-
   const canShowMessage = !!debouncedUsername && !errors.username;
 
   return (
@@ -51,15 +44,12 @@ export default function SignUpForm({
       />
 
       {canShowMessage && (
-        <p className={`text-sm mt-1 ${statusClass}`}>
-          {checking
-            ? "Checking availability..."
-            : availability?.available === true
-            ? `${debouncedUsername} is available!`
-            : availability?.available === false
-            ? `${debouncedUsername} is already taken.`
-            : null}
-        </p>
+        <UsernameChecker
+          debouncedUsername={debouncedUsername}
+          checking={checking}
+          availability={availability}
+          error={errors.username}
+        />
       )}
 
       <Button type="submit" className="mt-4">
