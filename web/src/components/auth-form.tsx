@@ -32,7 +32,9 @@ export default function AuthForm() {
       formType === "sign-in" ? signInSchema : usernameCheckSchema
     ),
     defaultValues: { username: "", password: "" },
-    mode: "onSubmit",
+    mode: "onChange",
+    reValidateMode: "onChange",
+    criteriaMode: "firstError",
   });
 
   async function onSubmit(values: AuthFormData) {

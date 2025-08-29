@@ -13,6 +13,21 @@ type SignUpFormProps = {
   watch: UseFormWatch<AuthFormData>;
 };
 
+type Availability =
+  | { available: true }
+  | { available: false; reason: "taken" }
+  | { available: null; reason: "invalid" | "error" };
+
+function isAvailabilityResponse(d: unknown): d is Availability {
+  if (typeof d !== "object" || d === null) return false;
+  const o = d as { available?: unknown; reason?: unknown };
+  if (o.available === true) return true;
+  if (o.available === false) return o.reason === "taken";
+  if (o.available === null)
+    return o.reason === "invalid" || o.reason === "error";
+  return false;
+}
+
 export default function SignUpForm({
   register,
   errors,
@@ -23,23 +38,33 @@ export default function SignUpForm({
   const debouncedUsername = useDebounce(username, 400);
 
   const [checking, setChecking] = useState(false);
-  const [available, setAvailable] = useState<boolean | null>(null);
+
+  const [availability, setAvailability] = useState<Availability | null>(null);
 
   const checkUsername = useCallback(
-    async (u: string, signal?: AbortSignal): Promise<boolean | null> => {
+    async (u: string): Promise<Availability> => {
       try {
         const res = await fetch(
           `${AUTH_ENDPOINTS.USERNAME_CHECK}?username=${encodeURIComponent(u)}`,
-          { signal }
+          { cache: "no-store" }
         );
-        if (!res.ok) return null;
-        const data = await res.json();
-        return typeof data === "boolean" ? data : null;
+
+        const data: unknown = await res.json();
+
+        if (isAvailabilityResponse(data)) return data;
+        if (typeof data === "boolean") {
+          return data
+            ? { available: true }
+            : { available: false, reason: "taken" };
+        }
+
+        if (res.status === 422) return { available: null, reason: "invalid" };
+        if (!res.ok) return { available: null, reason: "error" };
+        return { available: null, reason: "error" };
       } catch (e) {
         if (e instanceof Error)
           console.error("username check error:", e.message);
-        else console.error("Unexpected error:", e);
-        return null;
+        return { available: null, reason: "error" };
       }
     },
     []
@@ -47,7 +72,7 @@ export default function SignUpForm({
 
   useEffect(() => {
     if (!debouncedUsername || errors.username) {
-      setAvailable(null);
+      setAvailability(null);
       setChecking(false);
       return;
     }
@@ -57,8 +82,8 @@ export default function SignUpForm({
     (async () => {
       setChecking(true);
       try {
-        const ok = await checkUsername(debouncedUsername);
-        if (!cancelled) setAvailable(ok);
+        const res = await checkUsername(debouncedUsername);
+        if (!cancelled) setAvailability(res);
       } finally {
         if (!cancelled) setChecking(false);
       }
@@ -69,6 +94,16 @@ export default function SignUpForm({
     };
   }, [debouncedUsername, errors.username, checkUsername]);
 
+  const statusClass = checking
+    ? "text-foreground/60"
+    : availability?.available === true
+    ? "text-green-600"
+    : availability?.available === false
+    ? "text-red-600"
+    : "";
+
+  const canShowMessage = !!debouncedUsername && !errors.username;
+
   return (
     <>
       <InputOrTextarea
@@ -78,13 +113,15 @@ export default function SignUpForm({
         error={errors.username?.message}
       />
 
-      {debouncedUsername && !errors.username && (
-        <p>
+      {canShowMessage && (
+        <p className={`text-sm mt-1 ${statusClass}`}>
           {checking
             ? "Checking availability..."
-            : available
+            : availability?.available === true
             ? `${debouncedUsername} is available!`
-            : `${debouncedUsername} is already taken.`}
+            : availability?.available === false
+            ? `${debouncedUsername} is already taken.`
+            : null}
         </p>
       )}
 
