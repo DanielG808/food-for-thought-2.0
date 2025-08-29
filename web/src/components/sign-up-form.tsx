@@ -38,7 +38,6 @@ export default function SignUpForm({
   const debouncedUsername = useDebounce(username, 400);
 
   const [checking, setChecking] = useState(false);
-
   const [availability, setAvailability] = useState<Availability | null>(null);
 
   const checkUsername = useCallback(

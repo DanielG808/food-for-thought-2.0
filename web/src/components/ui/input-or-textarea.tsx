@@ -55,6 +55,7 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>({
           className={cn(base, errorRing, className)}
           aria-invalid={!!error}
           aria-describedby={describedBy}
+          spellCheck={false}
           {...register(name, rules)}
           {...textareaProps}
         />
@@ -77,6 +78,7 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>({
         className={cn(base, errorRing, className)}
         aria-invalid={!!error}
         aria-describedby={describedBy}
+        spellCheck={false}
         {...register(name, rules)}
         {...inputProps}
       />
