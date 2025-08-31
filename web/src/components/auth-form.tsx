@@ -37,6 +37,8 @@ import {
   mapClerkErrors,
   signUpFieldMap,
 } from "@/lib/utils/mapClerkErrors";
+import { ensureUserInDb } from "@/lib/api/users";
+import Button from "./ui/button";
 
 export default function AuthForm() {
   const { formType, toggleForm } = useAuthFormToggle();
@@ -113,6 +115,9 @@ export default function AuthForm() {
       const attempt = await signUp.attemptEmailAddressVerification({ code });
       if (attempt.status === "complete") {
         await setActiveSignUp?.({ session: attempt.createdSessionId });
+
+        await ensureUserInDb();
+
         router.push("/");
         return;
       }
@@ -162,38 +167,39 @@ export default function AuthForm() {
             }
           />
 
-          <button
+          <Button
             type="button"
             onClick={verifyEmailCode}
-            className="w-full rounded-md border px-3 py-2 hover:bg-foreground/5 transition"
+            className="w-full px-3 py-2"
           >
             Verify & Create Account
-          </button>
+          </Button>
+          <div className="flex justify-between">
+            <button
+              type="button"
+              onClick={async () => {
+                try {
+                  await signUp?.prepareEmailAddressVerification({
+                    strategy: "email_code",
+                  });
+                } catch {}
+              }}
+              className="text-xs underline opacity-80"
+            >
+              Resend code
+            </button>
 
-          <button
-            type="button"
-            onClick={async () => {
-              try {
-                await signUp?.prepareEmailAddressVerification({
-                  strategy: "email_code",
-                });
-              } catch {}
-            }}
-            className="text-xs underline opacity-80"
-          >
-            Resend code
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              setPendingVerification(null);
-              setCode("");
-            }}
-            className="text-xs underline opacity-80"
-          >
-            Change email
-          </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPendingVerification(null);
+                setCode("");
+              }}
+              className="text-xs underline opacity-80"
+            >
+              Change email
+            </button>
+          </div>
         </div>
       ) : (
         <>

@@ -59,16 +59,21 @@ export default function SignUpForm({
         <InputOrTextarea
           name="password"
           register={register}
+          inputType="password"
           inputProps={{ autoComplete: "new-password" }}
           error={errors.password?.message}
         />
         <InputOrTextarea
           name="confirmPassword"
           register={register}
+          inputType="password"
           inputProps={{ autoComplete: "new-password" }}
           error={errors.confirmPassword?.message}
         />
       </>
+
+      {/* ✅ Add this placeholder so Smart CAPTCHA can render */}
+      <div id="clerk-captcha" data-cl-theme="auto" data-cl-size="normal" />
 
       <Button type="submit" className="mt-4">
         {isSubmitting ? "Creating..." : "Create account"}
