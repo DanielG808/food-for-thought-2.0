@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils/cn";
 import { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = {
-  type: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;

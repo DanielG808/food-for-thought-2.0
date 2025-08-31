@@ -77,12 +77,6 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/users/ensure">
 }
 
-// Validate ..\..\src\app\api\users\logout\route.ts
-{
-  const handler = {} as typeof import("..\\..\\src\\app\\api\\users\\logout\\route.js")
-  handler satisfies RouteHandlerConfig<"/api/users/logout">
-}
-
 
 
 

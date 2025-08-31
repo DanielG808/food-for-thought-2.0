@@ -14,13 +14,3 @@ export async function ensureUserInDb(): Promise<boolean> {
     return false;
   }
 }
-
-export async function logout(): Promise<boolean> {
-  try {
-    const res = await fetch("/api/users/logout", { method: "POST" });
-    return res.ok;
-  } catch (error) {
-    console.error("Logout failed", error);
-    return false;
-  }
-}
