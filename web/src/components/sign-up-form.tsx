@@ -72,7 +72,6 @@ export default function SignUpForm({
         />
       </>
 
-      {/* ✅ Add this placeholder so Smart CAPTCHA can render */}
       <div id="clerk-captcha" data-cl-theme="auto" data-cl-size="normal" />
 
       <Button type="submit" className="mt-4">
