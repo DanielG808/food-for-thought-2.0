@@ -34,16 +34,16 @@ export default function EmailVerificationForm({
         className
       )}
     >
-      <p className="text-sm opacity-80">
+      <p className="text-sm">
         We sent a 6-digit code to{" "}
-        <span className="font-medium">{pendingVerification.email}</span>.
+        <span className="font-semibold">{pendingVerification.email}</span>.
       </p>
 
       <input
         aria-label="Verification code"
         inputMode="numeric"
         maxLength={6}
-        className="w-full rounded-md border px-3 py-2 bg-background"
+        className="text-black/85 w-full rounded-md border border-foreground px-3 py-2 bg-background focus:ring-1 focus:ring-foreground focus:outline-0"
         value={code}
         onChange={(e) =>
           onCodeChange(e.target.value.replace(/\D/g, "").slice(0, 6))
@@ -51,30 +51,25 @@ export default function EmailVerificationForm({
       />
 
       <Button
-        type="button"
-        onClick={onVerify}
         disabled={code.length !== 6 || isVerifying}
+        onClick={onVerify}
         className="w-full px-3 py-2"
       >
         {isVerifying ? "Verifying..." : "Verify & Create Account"}
       </Button>
       <div className="flex justify-between">
-        <button
-          type="button"
-          onClick={onResend}
+        <Button
+          variant="text"
           disabled={!!isResending}
-          className="text-xs underline opacity-80"
+          onClick={onResend}
+          className="text-sm"
         >
           Resend code
-        </button>
+        </Button>
 
-        <button
-          type="button"
-          onClick={onChangeEmail}
-          className="text-xs underline opacity-80"
-        >
+        <Button variant="text" onClick={onChangeEmail} className="text-sm">
           Change email
-        </button>
+        </Button>
       </div>
     </div>
   );

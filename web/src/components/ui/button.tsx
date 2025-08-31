@@ -27,7 +27,7 @@ export default function Button({
 
   const variants: Record<ButtonVariants, string> = {
     default: "bg-foreground text-white hover:bg-foreground-dark",
-    text: "bg-inherit text-foreground hover:underline hover:bg-inherit",
+    text: "bg-inherit text-foreground hover:underline hover:bg-inherit px-0",
   };
 
   return (
