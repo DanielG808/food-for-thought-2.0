@@ -1,5 +1,4 @@
 import { useRouter } from "next/navigation";
-import { useAuthFormToggle } from "./useAuthFormToggle";
 import { useAuth, useSignUp } from "@clerk/nextjs";
 import { useState } from "react";
 import { Path, SubmitHandler, useForm } from "react-hook-form";
@@ -20,7 +19,7 @@ import {
 import { ensureUserInDb } from "../api/users";
 
 export function useAuthForm() {
-  const { formType, toggleForm } = useAuthFormToggle();
+  const [formType, setFormType] = useState<"sign-in" | "sign-up">("sign-in");
   const router = useRouter();
 
   const { isLoaded: authLoaded } = useAuth();
@@ -112,6 +111,10 @@ export function useAuthForm() {
         mapped as Partial<Record<Path<SignUpFormData>, string>>
       );
     }
+  }
+
+  function toggleForm() {
+    setFormType((prev) => (prev === "sign-in" ? "sign-up" : "sign-in"));
   }
 
   return {
