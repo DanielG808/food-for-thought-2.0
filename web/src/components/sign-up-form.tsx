@@ -8,14 +8,14 @@ import { useDebounce } from "@/lib/hooks/useDebounce";
 import { useUsernameCheck } from "@/lib/hooks/useUsernameCheck";
 
 // types
-import { AuthFormData } from "@/lib/validations/authSchema";
+import { SignUpFormData } from "@/lib/validations/authSchema";
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 type SignUpFormProps = {
-  register: UseFormRegister<AuthFormData>;
-  errors: FieldErrors<AuthFormData>;
+  register: UseFormRegister<SignUpFormData>;
+  errors: FieldErrors<SignUpFormData>;
   isSubmitting: boolean;
-  watch: UseFormWatch<AuthFormData>;
+  watch: UseFormWatch<SignUpFormData>;
 };
 
 export default function SignUpForm({
@@ -59,20 +59,20 @@ export default function SignUpForm({
         <InputOrTextarea
           name="password"
           register={register}
-          inputProps={{ autoComplete: "password" }}
+          inputProps={{ autoComplete: "new-password" }}
           error={errors.password?.message}
         />
         <InputOrTextarea
           name="confirmPassword"
           register={register}
-          inputProps={{ autoComplete: "confirmPassword" }}
+          inputProps={{ autoComplete: "new-password" }}
           error={errors.confirmPassword?.message}
         />
       </>
 
       <Button
         type="submit"
-        // onClick={!usernameConfirmed ? handleConfirmClick : undefined}
+        onClick={() => console.log("Signed up!")}
         className="mt-4"
       >
         {isSubmitting ? "Creating..." : "Create account"}

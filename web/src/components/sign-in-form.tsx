@@ -30,10 +30,14 @@ export default function SignInForm({
         name="password"
         register={register}
         inputType="password"
-        inputProps={{ autoComplete: "new-password" }}
+        inputProps={{ autoComplete: "current-password" }}
         error={passwordError}
       />
-      <Button type={"submit"} className="mt-4">
+      <Button
+        type="submit"
+        onClick={() => console.log("Signed in!")}
+        className="mt-4"
+      >
         {isSubmitting ? "Signing in..." : "Sign In"}
       </Button>
     </>

@@ -9,14 +9,21 @@ import AuthFormToggle from "./auth-form-toggle";
 
 // hooks
 import { useAuthFormToggle } from "@/lib/hooks/useAuthFormToggle";
-import { useForm } from "react-hook-form";
+import {
+  FieldErrors,
+  useForm,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 // types
 import {
   AuthFormData,
+  SignInFormData,
   signInSchema,
-  usernameCheckSchema,
+  SignUpFormData,
+  signUpSchema,
 } from "@/lib/validations/authSchema";
 
 export default function AuthForm() {
@@ -28,13 +35,14 @@ export default function AuthForm() {
     formState: { errors, isSubmitting },
     watch,
   } = useForm<AuthFormData>({
-    resolver: zodResolver(
-      formType === "sign-in" ? signInSchema : usernameCheckSchema
-    ),
-    defaultValues: { username: "", password: "" },
-    mode: "onChange",
-    reValidateMode: "onChange",
-    criteriaMode: "firstError",
+    resolver: zodResolver(formType === "sign-in" ? signInSchema : signUpSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    mode: "onSubmit",
   });
 
   async function onSubmit(values: AuthFormData) {
@@ -57,16 +65,16 @@ export default function AuthForm() {
       >
         {formType === "sign-in" ? (
           <SignInForm
-            register={register}
-            errors={errors}
+            register={register as unknown as UseFormRegister<SignInFormData>}
+            errors={errors as FieldErrors<SignInFormData>}
             isSubmitting={isSubmitting}
           />
         ) : (
           <SignUpForm
-            register={register}
-            errors={errors}
+            register={register as unknown as UseFormRegister<SignUpFormData>}
+            errors={errors as FieldErrors<SignUpFormData>}
             isSubmitting={isSubmitting}
-            watch={watch}
+            watch={watch as UseFormWatch<SignUpFormData>}
           />
         )}
       </Form>

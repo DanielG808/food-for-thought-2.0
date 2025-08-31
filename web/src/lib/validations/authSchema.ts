@@ -14,7 +14,9 @@ const usernameCheck = z
     "Username must consist of only letters, numbers, and underscores."
   );
 
-const email = z.email("Email is required.");
+const email = z
+  .email({ pattern: z.regexes.html5Email })
+  .min(1, "Email is required.");
 
 const password = z
   .string()
@@ -26,16 +28,12 @@ export const signInSchema = z.object({
   password,
 });
 
-export const usernameCheckSchema = z.object({
-  username: usernameCheck,
-});
-
 export const signUpSchema = z
   .object({
-    username,
+    username: usernameCheck,
     email,
     password,
-    confirmPassword: z.string(),
+    confirmPassword: z.string().min(1),
   })
   .refine((data) => data.password === data.confirmPassword, {
     path: ["confirmPassword"],
@@ -43,7 +41,6 @@ export const signUpSchema = z
   });
 
 export type SignInFormData = z.infer<typeof signInSchema>;
-export type UsernameCheckData = z.infer<typeof usernameCheckSchema>;
 export type SignUpFormData = z.infer<typeof signUpSchema>;
 
-export type AuthFormData = SignInFormData | UsernameCheckData | SignUpFormData;
+export type AuthFormData = SignInFormData | SignUpFormData;
