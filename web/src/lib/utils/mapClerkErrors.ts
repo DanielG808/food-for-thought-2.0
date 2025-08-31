@@ -9,7 +9,7 @@ export type ClerkAPIError = {
 
 export type ClerkErrorPayload = { errors?: ClerkAPIError[] };
 
-type FieldMap<TFields extends string> = {
+export type FieldMap<TFields extends string> = {
   [clerkCodeFragment: string]: TFields[];
 };
 

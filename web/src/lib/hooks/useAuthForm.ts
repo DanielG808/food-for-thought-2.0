@@ -1,9 +1,10 @@
 import { useRouter } from "next/navigation";
-import { useAuth, useSignUp } from "@clerk/nextjs";
+import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
 import { useState } from "react";
 import { Path, SubmitHandler, useForm } from "react-hook-form";
 import {
   AuthFormData,
+  SignInFormData,
   signInSchema,
   SignUpFormData,
   signUpSchema,
@@ -13,6 +14,7 @@ import {
   applyClerkErrorsToForm,
   ClerkAPIError,
   extractClerkErrors,
+  FieldMap,
   mapClerkErrors,
   signUpFieldMap,
 } from "../utils/mapClerkErrors";
@@ -23,6 +25,13 @@ export function useAuthForm() {
   const router = useRouter();
 
   const { isLoaded: authLoaded } = useAuth();
+
+  const {
+    isLoaded: signInLoaded,
+    signIn,
+    setActive: setActiveSignIn,
+  } = useSignIn();
+
   const {
     isLoaded: signUpLoaded,
     signUp,
@@ -52,15 +61,46 @@ export function useAuthForm() {
     mode: "onSubmit",
   });
 
+  const signInFieldMap: FieldMap<"username" | "password"> = {
+    identifier: ["username"],
+    username: ["username"],
+    password: ["password"],
+  };
+
   const onSubmit: SubmitHandler<AuthFormData> = async (
     values: AuthFormData
   ) => {
     if (formType === "sign-in") {
-      console.log("sign-in: ", {
-        username: values.username,
-        password: "password" in values ? values.password : undefined,
-      });
-      return;
+      if (!authLoaded || !signInLoaded || !signIn) return;
+
+      try {
+        const attempt = await signIn.create({
+          identifier: values.username.trim(),
+          password: (values as SignInFormData).password,
+        });
+
+        if (attempt.status === "complete") {
+          await setActiveSignIn?.({ session: attempt.createdSessionId });
+          await ensureUserInDb();
+          router.push("/");
+          return;
+        }
+
+        setError("username", {
+          type: "manual",
+          message:
+            "Additional verification required. Please continue the sign-in flow.",
+        });
+        return;
+      } catch (error: unknown) {
+        const clerkErrors: ClerkAPIError[] = extractClerkErrors(error);
+        const mapped = mapClerkErrors(clerkErrors, signInFieldMap, "username");
+        applyClerkErrorsToForm<SignInFormData, Path<SignInFormData>>(
+          setError,
+          mapped as Partial<Record<Path<SignInFormData>, string>>
+        );
+        return;
+      }
     }
 
     if (!authLoaded || !signUpLoaded) return;
