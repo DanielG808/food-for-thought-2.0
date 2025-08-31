@@ -1,4 +1,4 @@
-# 🍲 Recipe App
+# 🍲 Food For Thought 2.0
 
 A simple full-stack recipe app built with **Next.js 15**, **Prisma**, **Neon Postgres**, and **Clerk** for authentication.  
 Future plan: add a companion **Expo mobile app** consuming the same API.

@@ -2,11 +2,15 @@
 
 import { cn } from "@/lib/utils/cn";
 
-type FormProps = {
+type FormProps = React.FormHTMLAttributes<HTMLFormElement> & {
   children: React.ReactNode;
   className?: string;
 };
 
-export default function Form({ children, className }: FormProps) {
-  return <form className={cn("flex flex-col", className)}>{children}</form>;
+export default function Form({ children, className, ...props }: FormProps) {
+  return (
+    <form className={cn("flex flex-col", className)} {...props}>
+      {children}
+    </form>
+  );
 }

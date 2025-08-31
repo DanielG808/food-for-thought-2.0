@@ -65,6 +65,18 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies RouteHandlerConfig<"/api/me">
 }
 
+// Validate ..\..\src\app\api\usernames\route.ts
+{
+  const handler = {} as typeof import("..\\..\\src\\app\\api\\usernames\\route.js")
+  handler satisfies RouteHandlerConfig<"/api/usernames">
+}
+
+// Validate ..\..\src\app\api\users\ensure\route.ts
+{
+  const handler = {} as typeof import("..\\..\\src\\app\\api\\users\\ensure\\route.js")
+  handler satisfies RouteHandlerConfig<"/api/users/ensure">
+}
+
 
 
 

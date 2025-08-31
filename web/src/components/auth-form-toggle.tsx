@@ -1,3 +1,5 @@
+import Button from "./ui/button";
+
 type AuthFormToggleProps = {
   formType: "sign-in" | "sign-up";
   toggleForm: () => void;
@@ -14,9 +16,9 @@ export default function AuthFormToggle({
   return (
     <div className="flex items-center justify-between w-full text-sm pt-1">
       <p>{message}</p>
-      <button onClick={toggleForm} className="cursor-pointer hover:underline">
+      <Button variant="text" onClick={toggleForm}>
         {buttonText}
-      </button>
+      </Button>
     </div>
   );
 }
