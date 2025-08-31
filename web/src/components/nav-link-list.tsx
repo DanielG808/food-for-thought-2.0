@@ -20,7 +20,7 @@ export default function NavLinkList() {
   if (!isSignedIn) return null;
 
   return (
-    <ul className="space-x-96">
+    <ul className="space-x-24">
       {navLinks.map((link) => (
         <NavLink key={link.path} name={link.name} path={link.path} />
       ))}
