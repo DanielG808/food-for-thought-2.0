@@ -9,7 +9,11 @@ export default function LogoutButton() {
   if (!isSignedIn) return null;
 
   return (
-    <Button onClick={() => signOut({ redirectUrl: "/" })} variant="text">
+    <Button
+      variant="text"
+      onClick={() => signOut({ redirectUrl: "/" })}
+      className="pr-4"
+    >
       Logout
     </Button>
   );

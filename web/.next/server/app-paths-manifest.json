@@ -1,4 +1,6 @@
 {
+  "/api/users/ensure/route": "app/api/users/ensure/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/sign-in/page": "app/sign-in/page.js"
 }

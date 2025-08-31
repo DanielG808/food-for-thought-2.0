@@ -1,3 +1,6 @@
+"use client";
+
+import { useAuth } from "@clerk/nextjs";
 import NavLink from "./nav-link";
 
 const navLinks = [
@@ -6,16 +9,20 @@ const navLinks = [
     name: "My Recipes",
   },
   {
-    path: "me/account",
+    path: "/me/account",
     name: "My Account",
   },
 ];
 
 export default function NavLinkList() {
+  const { isSignedIn } = useAuth();
+
+  if (!isSignedIn) return null;
+
   return (
-    <ul>
+    <ul className="space-x-96">
       {navLinks.map((link) => (
-        <NavLink />
+        <NavLink key={link.path} name={link.name} path={link.path} />
       ))}
     </ul>
   );
