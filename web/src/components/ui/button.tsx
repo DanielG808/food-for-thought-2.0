@@ -3,7 +3,10 @@
 import { cn } from "@/lib/utils/cn";
 import { ButtonHTMLAttributes } from "react";
 
+type ButtonVariants = "default" | "text";
+
 type ButtonProps = {
+  variant?: ButtonVariants;
   type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
@@ -12,6 +15,7 @@ type ButtonProps = {
 };
 
 export default function Button({
+  variant = "default",
   type = "button",
   disabled = false,
   onClick,
@@ -19,14 +23,19 @@ export default function Button({
   className,
 }: ButtonProps) {
   const baseStyles =
-    "bg-foreground text-white py-1 rounded-sm cursor-pointer hover:bg-foreground-dark duration-100";
+    "py-1 px-3 rounded-sm cursor-pointer duration-100 inline-flex items-center justify-center";
+
+  const variants: Record<ButtonVariants, string> = {
+    default: "bg-foreground text-white hover:bg-foreground-dark",
+    text: "bg-inherit text-foreground hover:underline hover:bg-inherit",
+  };
 
   return (
     <button
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={cn(baseStyles, className)}
+      className={cn(baseStyles, variants[variant], className)}
     >
       {children}
     </button>

@@ -197,6 +197,9 @@
   .flex {
     display: flex;
   }
+  .inline-flex {
+    display: inline-flex;
+  }
   .h-14 {
     height: calc(var(--spacing) * 14);
   }
@@ -301,6 +304,9 @@
   .bg-foreground {
     background-color: var(--foreground);
   }
+  .bg-inherit {
+    background-color: inherit;
+  }
   .p-1 {
     padding: calc(var(--spacing) * 1);
   }
@@ -363,6 +369,9 @@
       color: color-mix(in oklab, var(--color-black) 75%, transparent);
     }
   }
+  .text-foreground {
+    color: var(--foreground);
+  }
   .text-foreground\/45 {
     color: var(--foreground);
     @supports (color: color-mix(in lab, red, red)) {
@@ -423,6 +432,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--foreground-dark);
+      }
+    }
+  }
+  .hover\:bg-inherit {
+    &:hover {
+      @media (hover: hover) {
+        background-color: inherit;
       }
     }
   }
