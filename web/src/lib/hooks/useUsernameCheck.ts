@@ -14,7 +14,6 @@ export function useUsernameCheck(
   // state
   const [checking, setChecking] = useState(false);
   const [availability, setAvailability] = useState<Availability | null>(null);
-  const [usernameConfirmed, setUsernameConfirmed] = useState(false);
 
   // helpers
   function isAvailabilityResponse(d: unknown): d is Availability {
@@ -56,13 +55,6 @@ export function useUsernameCheck(
     []
   );
 
-  function handleConfirmClick(e: React.FormEvent) {
-    e.preventDefault();
-    if (availability?.available) {
-      setUsernameConfirmed(true);
-    }
-  }
-
   useEffect(() => {
     if (!debouncedUsername || error) {
       setAvailability(null);
@@ -87,5 +79,5 @@ export function useUsernameCheck(
     };
   }, [debouncedUsername, error, checkUsername]);
 
-  return { checking, availability, usernameConfirmed, handleConfirmClick };
+  return { checking, availability };
 }

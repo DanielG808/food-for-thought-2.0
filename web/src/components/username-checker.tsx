@@ -26,7 +26,7 @@ export default function UsernameChecker({
 
   return (
     canShowMessage && (
-      <p className={`text-sm mt-1 ${statusClass}`}>
+      <p className={`pb-2 text-sm mt-1 ${statusClass}`}>
         {checking
           ? "Checking availability..."
           : availability?.available === true
