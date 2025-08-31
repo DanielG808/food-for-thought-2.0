@@ -40,6 +40,7 @@ import {
 import { ensureUserInDb } from "@/lib/api/users";
 import Button from "./ui/button";
 import EmailVerificationForm from "./email-verification-form";
+import SignInSignUpForm from "./sign-in-sign-up-form";
 
 export default function AuthForm() {
   const { formType, toggleForm } = useAuthFormToggle();
@@ -164,46 +165,19 @@ export default function AuthForm() {
           setCode("");
         }}
       />
-      <>
-        {!pendingVerification && (
-          <>
-            <Form
-              onSubmit={handleSubmit(onSubmit)}
-              className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-1 rounded-md"
-            >
-              {formType === "sign-in" ? (
-                <SignInForm
-                  register={
-                    register as unknown as UseFormRegister<SignInFormData>
-                  }
-                  errors={errors as FieldErrors<SignInFormData>}
-                  isSubmitting={isSubmitting}
-                />
-              ) : (
-                <SignUpForm
-                  register={
-                    register as unknown as UseFormRegister<SignUpFormData>
-                  }
-                  errors={errors as FieldErrors<SignUpFormData>}
-                  isSubmitting={isSubmitting}
-                  watch={watch as UseFormWatch<SignUpFormData>}
-                />
-              )}
-            </Form>
-
-            <AuthFormToggle
-              formType={formType}
-              toggleForm={() => {
-                // ensure verify state is cleared when toggling
-                setPendingVerification(null); // 👈 ADDED
-                setCode(""); // 👈 ADDED
-                toggleForm();
-              }}
-            />
-          </>
-        )}
-      </>
-      {/* )} */}
+      <SignInSignUpForm
+        register={register}
+        watch={watch}
+        pendingVerification={pendingVerification}
+        formType={formType}
+        handleSubmit={handleSubmit}
+        onSubmit={onSubmit}
+        isSubmitting={isSubmitting}
+        errors={errors}
+        setCode={setCode}
+        setPendingVerification={setPendingVerification}
+        toggleForm={toggleForm}
+      />
     </div>
   );
 }
