@@ -39,6 +39,7 @@ import {
 } from "@/lib/utils/mapClerkErrors";
 import { ensureUserInDb } from "@/lib/api/users";
 import Button from "./ui/button";
+import EmailVerificationForm from "./email-verification-form";
 
 export default function AuthForm() {
   const { formType, toggleForm } = useAuthFormToggle();
@@ -137,7 +138,6 @@ export default function AuthForm() {
 
   return (
     <div className="flex flex-col justify-center space-y-2">
-      {/* 👇 HEADER TEXT NOW REACTS TO VERIFY STEP — CHANGED */}
       <FormHeader
         text={
           pendingVerification
@@ -147,97 +147,63 @@ export default function AuthForm() {
             : "Sign Up:"
         }
       />
-
-      {/* 👇 CONDITIONAL VERIFY UI — ADDED */}
-      {pendingVerification ? (
-        <div className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-3 rounded-md">
-          <p className="text-sm opacity-80">
-            We sent a 6-digit code to{" "}
-            <span className="font-medium">{pendingVerification.email}</span>.
-          </p>
-
-          <input
-            aria-label="Verification code"
-            inputMode="numeric"
-            maxLength={6}
-            className="w-full rounded-md border px-3 py-2 bg-background"
-            value={code}
-            onChange={(e) =>
-              setCode(e.target.value.replace(/\D/g, "").slice(0, 6))
-            }
-          />
-
-          <Button
-            type="button"
-            onClick={verifyEmailCode}
-            className="w-full px-3 py-2"
-          >
-            Verify & Create Account
-          </Button>
-          <div className="flex justify-between">
-            <button
-              type="button"
-              onClick={async () => {
-                try {
-                  await signUp?.prepareEmailAddressVerification({
-                    strategy: "email_code",
-                  });
-                } catch {}
-              }}
-              className="text-xs underline opacity-80"
+      <EmailVerificationForm
+        pendingVerification={pendingVerification}
+        code={code}
+        onCodeChange={setCode}
+        onVerify={verifyEmailCode}
+        onResend={async () => {
+          try {
+            await signUp?.prepareEmailAddressVerification({
+              strategy: "email_code",
+            });
+          } catch {}
+        }}
+        onChangeEmail={() => {
+          setPendingVerification(null);
+          setCode("");
+        }}
+      />
+      <>
+        {!pendingVerification && (
+          <>
+            <Form
+              onSubmit={handleSubmit(onSubmit)}
+              className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-1 rounded-md"
             >
-              Resend code
-            </button>
+              {formType === "sign-in" ? (
+                <SignInForm
+                  register={
+                    register as unknown as UseFormRegister<SignInFormData>
+                  }
+                  errors={errors as FieldErrors<SignInFormData>}
+                  isSubmitting={isSubmitting}
+                />
+              ) : (
+                <SignUpForm
+                  register={
+                    register as unknown as UseFormRegister<SignUpFormData>
+                  }
+                  errors={errors as FieldErrors<SignUpFormData>}
+                  isSubmitting={isSubmitting}
+                  watch={watch as UseFormWatch<SignUpFormData>}
+                />
+              )}
+            </Form>
 
-            <button
-              type="button"
-              onClick={() => {
-                setPendingVerification(null);
-                setCode("");
+            <AuthFormToggle
+              formType={formType}
+              toggleForm={() => {
+                // ensure verify state is cleared when toggling
+                setPendingVerification(null); // 👈 ADDED
+                setCode(""); // 👈 ADDED
+                toggleForm();
               }}
-              className="text-xs underline opacity-80"
-            >
-              Change email
-            </button>
-          </div>
-        </div>
-      ) : (
-        <>
-          <Form
-            onSubmit={handleSubmit(onSubmit)}
-            className="border border-foreground-dark/15 w-96 bg-background-dark/85 p-4 space-y-1 rounded-md"
-          >
-            {formType === "sign-in" ? (
-              <SignInForm
-                register={
-                  register as unknown as UseFormRegister<SignInFormData>
-                }
-                errors={errors as FieldErrors<SignInFormData>}
-                isSubmitting={isSubmitting}
-              />
-            ) : (
-              <SignUpForm
-                register={
-                  register as unknown as UseFormRegister<SignUpFormData>
-                }
-                errors={errors as FieldErrors<SignUpFormData>}
-                isSubmitting={isSubmitting}
-                watch={watch as UseFormWatch<SignUpFormData>}
-              />
-            )}
-          </Form>
-
-          <AuthFormToggle
-            formType={formType}
-            toggleForm={() => {
-              // ensure verify state is cleared when toggling
-              setPendingVerification(null); // 👈 ADDED
-              setCode(""); // 👈 ADDED
-              toggleForm();
-            }}
-          />
-        </>
-      )}
+            />
+          </>
+        )}
+      </>
+      {/* )} */}
     </div>
   );
 }

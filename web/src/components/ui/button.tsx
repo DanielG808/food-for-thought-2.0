@@ -5,6 +5,7 @@ import { ButtonHTMLAttributes } from "react";
 
 type ButtonProps = {
   type: ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
   className?: string;
@@ -12,6 +13,7 @@ type ButtonProps = {
 
 export default function Button({
   type = "button",
+  disabled = false,
   onClick,
   children,
   className,
@@ -20,7 +22,12 @@ export default function Button({
     "bg-foreground text-white py-1 rounded-sm cursor-pointer hover:bg-foreground-dark duration-100";
 
   return (
-    <button type={type} onClick={onClick} className={cn(baseStyles, className)}>
+    <button
+      type={type}
+      disabled={disabled}
+      onClick={onClick}
+      className={cn(baseStyles, className)}
+    >
       {children}
     </button>
   );
