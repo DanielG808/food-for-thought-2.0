@@ -1,10 +1,10 @@
-export const navLinks = [
+export const navLinks = (userId: string) => [
   {
-    path: "/me/recipes",
+    path: `/recipes?user=${userId}`,
     name: "My Recipes",
   },
   {
-    path: "/me/account",
+    path: "/account",
     name: "My Account",
   },
 ];

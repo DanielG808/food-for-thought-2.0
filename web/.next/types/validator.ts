@@ -53,6 +53,12 @@ type RouteHandlerConfig<Route extends AppRouteHandlerRoutes = AppRouteHandlerRou
   handler satisfies AppPageConfig<"/">
 }
 
+// Validate ..\..\src\app\recipes\page.tsx
+{
+  const handler = {} as typeof import("..\\..\\src\\app\\recipes\\page.js")
+  handler satisfies AppPageConfig<"/recipes">
+}
+
 // Validate ..\..\src\app\sign-in\page.tsx
 {
   const handler = {} as typeof import("..\\..\\src\\app\\sign-in\\page.js")
