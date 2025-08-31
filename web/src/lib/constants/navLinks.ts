@@ -4,7 +4,7 @@ export const navLinks = (userId: string) => [
     name: "My Recipes",
   },
   {
-    path: "/account",
+    path: `/account?user=${userId}`,
     name: "My Account",
   },
 ];
