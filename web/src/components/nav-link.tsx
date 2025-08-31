@@ -6,5 +6,9 @@ type NavLinkProps = {
 };
 
 export default function NavLink({ name, path }: NavLinkProps) {
-  return <Link href={path}>{name}</Link>;
+  return (
+    <Link href={path} className="hover:underline">
+      {name}
+    </Link>
+  );
 }

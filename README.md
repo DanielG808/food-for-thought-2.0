@@ -28,7 +28,7 @@ Future plan: add a companion **Expo mobile app** consuming the same API.
 
 ```bash
 # Clone and install
-git clone <repo-url>
+git clone https://github.com/DanielG808/food-for-thought-2.0
 cd recipe-app/web
 npm install
 ```
