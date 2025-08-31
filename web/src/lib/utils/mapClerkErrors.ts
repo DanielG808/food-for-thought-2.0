@@ -3,9 +3,11 @@ import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 export type ClerkAPIError = {
   code?: string;
   message: string;
-  longMessage: string;
+  longMessage?: string;
   meta?: Record<string, unknown>;
 };
+
+export type ClerkErrorPayload = { errors?: ClerkAPIError[] };
 
 type FieldMap<TFields extends string> = {
   [clerkCodeFragment: string]: TFields[];
@@ -39,6 +41,22 @@ export function mapClerkErrors<TFields extends string>(
     if (!matched) out[fallbackField] = e.message;
   }
   return out;
+}
+
+function isClerkPayload(e: unknown): e is ClerkErrorPayload {
+  if (typeof e !== "object" || e === null) return false;
+  if (!("errors" in e)) return false;
+
+  const { errors } = e as { errors: unknown };
+  return Array.isArray(errors);
+}
+
+export function extractClerkErrors(e: unknown): ClerkAPIError[] {
+  if (isClerkPayload(e) && Array.isArray(e.errors)) return e.errors;
+  if (e instanceof Error) {
+    return [{ message: e.message }];
+  }
+  return [];
 }
 
 export function applyClerkErrorsToForm<

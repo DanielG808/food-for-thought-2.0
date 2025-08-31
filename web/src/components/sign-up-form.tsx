@@ -70,11 +70,7 @@ export default function SignUpForm({
         />
       </>
 
-      <Button
-        type="submit"
-        onClick={() => console.log("Signed up!")}
-        className="mt-4"
-      >
+      <Button type="submit" className="mt-4">
         {isSubmitting ? "Creating..." : "Create account"}
       </Button>
     </>

@@ -23,6 +23,8 @@ const password = z
   .min(1, "Password is required.")
   .min(8, "Password must be at least 8 characters.");
 
+export const usernameCheckSchema = z.object({ username: usernameCheck });
+
 export const signInSchema = z.object({
   username,
   password,
