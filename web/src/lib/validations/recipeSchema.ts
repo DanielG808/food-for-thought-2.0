@@ -32,6 +32,7 @@ export const recipeCreateSchema = recipeSchema.omit({
   userId: true,
   createdAt: true,
   updatedAt: true,
+  user: true,
 });
 
 export const recipeWithAuthorSchema = recipeSchema.extend({
