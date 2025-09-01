@@ -2,8 +2,8 @@ import z from "zod";
 
 export const ingredientSchema = z.object({
   name: z.string().min(1, "Ingredient name is required."),
-  amount: z.string().min(1, "Ingredient amount is required."),
-  unit: z.string().min(1, "Measurement unit is required."),
+  amount: z.string().optional(),
+  unit: z.string().optional(),
   notes: z.string().optional(),
 });
 

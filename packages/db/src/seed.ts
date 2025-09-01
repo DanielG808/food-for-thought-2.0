@@ -1,6 +1,10 @@
 import { Prisma, PrismaClient } from "../generated/prisma";
+
 import { chiliCrispChicken } from "./seeds/recipes/chili-crisp-chicken";
-import { srirachaTurkeyMeatballs } from "./seeds/recipes/sriracha-turkey-meatballs";
+import { groundPorkRiceBowls } from "./seeds/recipes/ground-pork-rice-bowls";
+import { honeySrirachaTurkeyMeatballs } from "./seeds/recipes/honey-sriracha-turkey-meatballs";
+import { porkTenderloin } from "./seeds/recipes/pork-tenderloin";
+import { slowCookerKoreanBeefNoodles } from "./seeds/recipes/slow-cooker-korean-beef-noodles";
 
 const prisma = new PrismaClient();
 
@@ -21,7 +25,13 @@ async function main() {
     select: { id: true },
   });
 
-  const recipes = [chiliCrispChicken, srirachaTurkeyMeatballs];
+  const recipes = [
+    chiliCrispChicken,
+    honeySrirachaTurkeyMeatballs,
+    groundPorkRiceBowls,
+    porkTenderloin,
+    slowCookerKoreanBeefNoodles,
+  ];
 
   for (const r of recipes) {
     await prisma.recipe.create({
