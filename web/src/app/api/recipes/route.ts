@@ -1,4 +1,4 @@
-import { getAllRecipes } from "@/lib/api/recipes";
+import { getAllRecipes } from "@/lib/api/recipes/recipes";
 import { recipeCreateSchema } from "@/lib/validations/recipeSchema";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@fft/db";

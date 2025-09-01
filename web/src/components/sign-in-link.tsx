@@ -12,7 +12,10 @@ export default function SignInLink() {
   if (pathname === "/sign-in") return null;
 
   return (
-    <Link href="/sign-in" className="hover:underline duration-200 pr-4">
+    <Link
+      href="/sign-in"
+      className="hover:text-foreground-dark hover:underline duration-150 pr-4"
+    >
       Sign In
     </Link>
   );
