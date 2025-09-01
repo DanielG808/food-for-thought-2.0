@@ -1,3 +1,3 @@
 export { prisma } from "./client";
 
-export type { Prisma, User } from "../generated/prisma";
+export type { Prisma, User, Recipe } from "../generated/prisma";
