@@ -2,9 +2,7 @@ import { getAllRecipes } from "@/lib/api/recipes";
 import { recipeCreateSchema } from "@/lib/validations/recipeSchema";
 import { auth } from "@clerk/nextjs/server";
 import { prisma } from "@fft/db";
-import { error } from "console";
 import { NextResponse } from "next/server";
-import { da } from "zod/locales";
 
 export async function GET() {
   try {
