@@ -8,7 +8,7 @@ export default async function Home() {
   console.log(recipes);
 
   return (
-    <PageContentWrapper>
+    <PageContentWrapper className="flex justify-center px-6 py-10">
       <RecipeCardContainer recipes={recipes} />
     </PageContentWrapper>
   );
