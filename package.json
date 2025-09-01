@@ -13,13 +13,15 @@
     "db:generate": "npm exec prisma generate -- --schema packages/db/prisma/schema.prisma",
     "db:studio": "npm exec prisma studio -- --schema packages/db/prisma/schema.prisma",
     "db:format": "npm exec prisma format -- --schema packages/db/prisma/schema.prisma",
+    "db:seed": "npm exec tsx packages/db/src/seed.ts",
     "dev:web": "npm --workspace web run dev",
     "build:web": "npm --workspace web run build",
     "lint": "npm --workspace web run lint",
     "typecheck": "npm --workspace web run typecheck"
   },
   "devDependencies": {
-    "prisma": "^6.14.0"
+    "prisma": "^6.14.0",
+    "tsx": "^4.20.5"
   },
   "dependencies": {
     "@prisma/client": "^6.14.0"
