@@ -1,5 +1,4 @@
-import { PrismaClient } from "../generated/prisma";
-import { JsonValue } from "@prisma/client/runtime/library";
+import { Prisma, PrismaClient } from "../generated/prisma";
 import { chiliCrispChicken } from "./seeds/recipes/chili-crisp-chicken";
 import { srirachaTurkeyMeatballs } from "./seeds/recipes/sriracha-turkey-meatballs";
 
@@ -8,7 +7,7 @@ const prisma = new PrismaClient();
 const SEED_CLERK_ID =
   process.env.SEED_CLERK_ID ?? "user_seed_2aBcDeFGhIjkLmNoPqRsTuVwXy";
 
-const J = (v: unknown): JsonValue => v as JsonValue;
+const J = (v: unknown): Prisma.InputJsonValue => v as Prisma.InputJsonValue;
 
 async function main() {
   const user = await prisma.user.upsert({
@@ -30,8 +29,9 @@ async function main() {
         userId: user.id,
         title: r.title,
         description: r.description ?? null,
-        ingredients: J(r.ingredients),
-        body: J(r.body),
+        ingredients:
+          r.ingredients === null ? Prisma.JsonNull : J(r.ingredients),
+        body: r.body === null ? Prisma.JsonNull : J(r.body),
         prepTime: r.prepTime,
         cookTime: r.cookTime,
       },
