@@ -1,3 +1,4 @@
+import { timeAgo } from "@/lib/utils/timeAgo";
 import { Recipe } from "@/lib/validations/recipeSchema";
 
 type RecipeCardProps = {
@@ -19,11 +20,11 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
       <div className="mt-auto flex justify-between text-sm text-foreground/45 pt-3 group-hover:text-foreground-dark/55 duration-150">
         <p>
           Created by{" "}
-          <span className="text-foreground/75 group-hover:text-foreground-dark/75 duration-150">
+          <span className="text-foreground/75 group-hover:text-foreground-dark/75 hover:underline duration-150">
             {recipe.user.username}
           </span>
         </p>
-        <p>just now</p>
+        <p>{timeAgo(recipe.createdAt)}</p>
       </div>
     </article>
   );
