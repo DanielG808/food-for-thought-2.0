@@ -21,6 +21,10 @@ export const recipeSchema = z.object({
   cookTime: z.number().int().nonnegative(),
   createdAt: z.date(),
   updatedAt: z.date(),
+  user: z.object({
+    id: z.string(),
+    username: z.string(),
+  }),
 });
 
 export const recipeCreateSchema = recipeSchema.omit({
@@ -28,6 +32,13 @@ export const recipeCreateSchema = recipeSchema.omit({
   userId: true,
   createdAt: true,
   updatedAt: true,
+});
+
+export const recipeWithAuthorSchema = recipeSchema.extend({
+  user: z.object({
+    id: z.string(),
+    username: z.string(),
+  }),
 });
 
 export type Recipe = z.infer<typeof recipeSchema>;

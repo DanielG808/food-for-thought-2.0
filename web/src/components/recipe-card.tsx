@@ -16,10 +16,14 @@ export default function RecipeCard({ recipe }: RecipeCardProps) {
         </p>
       </div>
 
-      <div className="mt-auto flex justify-end text-sm pt-3 group-hover:text-foreground-dark/75">
+      <div className="mt-auto flex justify-between text-sm text-foreground/45 pt-3 group-hover:text-foreground-dark/55">
         <p>
-          Created by <span>just now</span>
+          Created by{" "}
+          <span className="text-foreground/75 group-hover:text-foreground-dark/75">
+            {recipe.user.username}
+          </span>
         </p>
+        <p>just now</p>
       </div>
     </article>
   );

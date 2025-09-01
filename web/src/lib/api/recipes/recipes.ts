@@ -1,9 +1,17 @@
 import { prisma } from "@fft/db";
-import { recipeSchema } from "../validations/recipeSchema";
+import { recipeSchema } from "../../validations/recipeSchema";
 
 export async function getAllRecipes() {
   const recipes = await prisma.recipe.findMany({
     orderBy: { createdAt: "desc" },
+    include: {
+      user: {
+        select: {
+          id: true,
+          username: true,
+        },
+      },
+    },
   });
 
   return recipes.map((r) =>
@@ -14,4 +22,11 @@ export async function getAllRecipes() {
       body: r.body ?? { steps: [] },
     })
   );
+}
+
+export async function getRecipeById(id: string) {
+  return prisma.recipe.findUnique({
+    where: { id },
+    include: { user: { select: { id: true, username: true } } },
+  });
 }
