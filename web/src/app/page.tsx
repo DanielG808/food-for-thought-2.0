@@ -1,4 +1,5 @@
 import PageContentWrapper from "@/components/page-content-wrapper";
+import RecipeCardContainer from "@/components/recipe-card-container";
 import { getAllRecipes } from "@/lib/api/recipes";
 
 export default async function Home() {
@@ -6,5 +7,9 @@ export default async function Home() {
 
   console.log(recipes);
 
-  return <PageContentWrapper>Home Page</PageContentWrapper>;
+  return (
+    <PageContentWrapper>
+      <RecipeCardContainer recipes={recipes} />
+    </PageContentWrapper>
+  );
 }
