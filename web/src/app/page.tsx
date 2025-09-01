@@ -8,7 +8,7 @@ export default async function Home() {
   console.log(recipes);
 
   return (
-    <PageContentWrapper className="w-4/5 mx-auto">
+    <PageContentWrapper className="w-4/5 mx-auto my-10">
       <RecipeCardContainer recipes={recipes} />
     </PageContentWrapper>
   );
