@@ -2,8 +2,8 @@ import z from "zod";
 
 export const ingredientSchema = z.object({
   name: z.string().min(1, "Ingredient name is required."),
-  amount: z.string().min(1, "Ingredient amount is required."),
-  unit: z.string().min(1, "Measurement unit is required."),
+  amount: z.string().optional(),
+  unit: z.string().optional(),
   notes: z.string().optional(),
 });
 
@@ -32,6 +32,7 @@ export const recipeCreateSchema = recipeSchema.omit({
   userId: true,
   createdAt: true,
   updatedAt: true,
+  user: true,
 });
 
 export const recipeWithAuthorSchema = recipeSchema.extend({
