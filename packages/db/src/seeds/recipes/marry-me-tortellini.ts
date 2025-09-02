@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const marryMeTortellini: RecipeFormData = {
+export const marryMeTortellini: SeedRecipe = {
   title: "Marry Me Tortellini",
   description:
     "A rich and comforting soup made with sun-dried tomatoes, cheese tortellini, spinach, and parmesan in a creamy broth.",

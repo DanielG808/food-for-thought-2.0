@@ -47,7 +47,7 @@ async function main() {
     });
   }
 
-  console.log(`✅ Seeded ${recipes.length} recipes for user ${SEED_CLERK_ID}`);
+  console.log(`✅ Seeded ${recipes.length} recipes for ${SEED_CLERK_ID}`);
 }
 
 main()

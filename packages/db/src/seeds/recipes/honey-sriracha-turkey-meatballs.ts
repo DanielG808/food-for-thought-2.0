@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const honeySrirachaTurkeyMeatballs: RecipeFormData = {
+export const honeySrirachaTurkeyMeatballs: SeedRecipe = {
   title: "Honey Sriracha Turkey Meatballs",
   description:
     "Lean ground turkey meatballs baked and tossed in a sweet-spicy sriracha sauce served with rice and veggie.",
