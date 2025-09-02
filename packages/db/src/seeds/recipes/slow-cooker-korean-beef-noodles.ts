@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const slowCookerKoreanBeefNoodles: RecipeFormData = {
+export const slowCookerKoreanBeefNoodles: SeedRecipe = {
   title: "Slow Cooker Korean Beef Noodles",
   description:
     "Tender slow-cooked ox cheek in a rich Korean-inspired sauce with udon noodles, sesame seeds, and fresh coriander.",

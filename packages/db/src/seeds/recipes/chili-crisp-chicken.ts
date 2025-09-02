@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const chiliCrispChicken: RecipeFormData = {
+export const chiliCrispChicken: SeedRecipe = {
   title: "Slow Cooker Chili Crisp Chicken and Rice",
   description:
     "Slow Cooker Chili Crisp Chicken with rice and optional spicy mayo.",

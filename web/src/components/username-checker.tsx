@@ -1,4 +1,4 @@
-import { Availability } from "@/lib/hooks/useUsernameCheck";
+import { Availability } from "../lib/hooks/useUsernameCheck";
 import { FieldError } from "react-hook-form";
 
 type UsernameCheckerProps = {

@@ -9,7 +9,7 @@ import {
   AuthFormData,
   SignInFormData,
   SignUpFormData,
-} from "@/lib/validations/authSchema";
+} from "../lib/validations/authSchema";
 import {
   UseFormRegister,
   FieldErrors,

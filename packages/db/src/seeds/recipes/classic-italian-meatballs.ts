@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const classicItalianMeatballs: RecipeFormData = {
+export const classicItalianMeatballs: SeedRecipe = {
   title: "Classic Italian Meatballs",
   description:
     "Tender baked meatballs made with ground beef, Italian sausage, herbs, parmesan, and breadcrumbs.",

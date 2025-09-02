@@ -1,4 +1,4 @@
-import { Recipe } from "@/lib/validations/recipeSchema";
+import { Recipe } from "../lib/validations/recipeSchema";
 import RecipeHeader from "./recipe-header";
 import RecipeCardFooter from "./recipe-card-footer";
 

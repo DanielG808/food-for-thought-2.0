@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils/cn";
+import { cn } from "../../lib/utils/cn";
 import { ButtonHTMLAttributes } from "react";
 
 type ButtonVariants = "default" | "text";

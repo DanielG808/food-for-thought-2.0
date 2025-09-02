@@ -3,7 +3,7 @@
 import NavLink from "./nav-link";
 
 import { useAuth } from "@clerk/nextjs";
-import { navLinks } from "@/lib/constants/navLinks";
+import { navLinks } from "../lib/constants/navLinks";
 
 export default function NavBar() {
   const { userId, isSignedIn } = useAuth();

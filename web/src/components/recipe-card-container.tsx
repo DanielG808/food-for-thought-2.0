@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import RecipeCard from "./recipe-card";
-import { Recipe } from "@/lib/validations/recipeSchema";
+import { Recipe } from "../lib/validations/recipeSchema";
 
 type RecipeCardContainerProps = {
   recipes: Recipe[];

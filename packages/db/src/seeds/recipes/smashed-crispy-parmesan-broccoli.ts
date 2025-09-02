@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const smashedCrispyParmesanBroccoli: RecipeFormData = {
+export const smashedCrispyParmesanBroccoli: SeedRecipe = {
   title: "Smashed Crispy Parmesan Broccoli",
   description:
     "Tender-then-crispy broccoli smashed on a tray with olive oil, herbs, spices, and plenty of parmesan. Bake or air-fry.",

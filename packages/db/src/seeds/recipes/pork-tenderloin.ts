@@ -1,6 +1,6 @@
-import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
+import { SeedRecipe } from "../utils/recipes";
 
-export const porkTenderloin: RecipeFormData = {
+export const porkTenderloin: SeedRecipe = {
   title: "Oven-Baked Pork Tenderloin",
   description:
     "Juicy oven-baked pork tenderloin coated with a flavorful spice rub, topped with butter, and finished with pan juices.",

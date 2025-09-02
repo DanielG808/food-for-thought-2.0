@@ -1,4 +1,4 @@
-import { usernameCheckSchema } from "@/lib/validations/authSchema";
+import { usernameCheckSchema } from "../../../lib/validations/authSchema";
 import { prisma } from "@fft/db";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError } from "zod";

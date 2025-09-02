@@ -1,6 +1,6 @@
 import React from "react";
 import Button from "./ui/button";
-import { cn } from "@/lib/utils/cn";
+import { cn } from "../lib/utils/cn";
 
 type EmailVerificationFormProps = {
   pendingVerification: { email?: string } | null;
