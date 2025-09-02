@@ -1,11 +1,11 @@
-import { cn } from "@/lib/utils/cn";
+import { cn } from "../../lib/utils/cn";
 import {
   FieldValues,
   Path,
   RegisterOptions,
   UseFormRegister,
 } from "react-hook-form";
-import { formatLabel } from "@/lib/utils/formatLabel";
+import { formatLabel } from "../../lib/utils/formatLabel";
 
 type BaseProps<TFieldValues extends FieldValues> = {
   register: UseFormRegister<TFieldValues>;
