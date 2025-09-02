@@ -1,10 +1,15 @@
 import { Prisma, PrismaClient } from "../generated/prisma";
 
 import { chiliCrispChicken } from "./seeds/recipes/chili-crisp-chicken";
+import { classicItalianMeatballs } from "./seeds/recipes/classic-italian-meatballs";
 import { groundPorkRiceBowls } from "./seeds/recipes/ground-pork-rice-bowls";
 import { honeySrirachaTurkeyMeatballs } from "./seeds/recipes/honey-sriracha-turkey-meatballs";
+import { marryMeTortellini } from "./seeds/recipes/marry-me-tortellini";
 import { porkTenderloin } from "./seeds/recipes/pork-tenderloin";
+import { rattlesnakeTails } from "./seeds/recipes/rattlesnake-tails";
 import { slowCookerKoreanBeefNoodles } from "./seeds/recipes/slow-cooker-korean-beef-noodles";
+import { smashedCrispyParmesanBroccoli } from "./seeds/recipes/smashed-crispy-parmesan-broccoli";
+import { loadAllRecipesFromDir } from "./seeds/utils/recipes";
 
 const prisma = new PrismaClient();
 
@@ -25,13 +30,7 @@ async function main() {
     select: { id: true },
   });
 
-  const recipes = [
-    chiliCrispChicken,
-    honeySrirachaTurkeyMeatballs,
-    groundPorkRiceBowls,
-    porkTenderloin,
-    slowCookerKoreanBeefNoodles,
-  ];
+  const recipes = await loadAllRecipesFromDir("../recipes");
 
   for (const r of recipes) {
     await prisma.recipe.create({

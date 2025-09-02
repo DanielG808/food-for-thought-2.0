@@ -9,6 +9,7 @@ export const ingredientSchema = z.object({
 
 export const recipeSchema = z.object({
   id: z.cuid(),
+  userId: z.string(),
   title: z.string().min(1, "Title is required."),
   description: z.string().optional().nullable(),
   ingredients: z
@@ -29,7 +30,6 @@ export const recipeSchema = z.object({
 
 export const recipeCreateSchema = recipeSchema.omit({
   id: true,
-  userId: true,
   createdAt: true,
   updatedAt: true,
   user: true,

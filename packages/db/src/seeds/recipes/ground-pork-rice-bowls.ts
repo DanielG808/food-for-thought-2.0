@@ -1,7 +1,7 @@
 import type { RecipeFormData } from "../../../../../web/src/lib/validations/recipeSchema";
 
 export const groundPorkRiceBowls: RecipeFormData = {
-  title: "Ground Pork Rice Bowls",
+  title: "Hoison Sriracha Ground Pork Rice Bowls",
   description:
     "Savory ground pork cooked with hoisin, soy, sesame, and sriracha, served over rice with carrots, scallions, and peanuts.",
   ingredients: [
