@@ -6,7 +6,7 @@ import EmailVerificationForm from "./email-verification-form";
 import SignInSignUpForm from "./sign-in-sign-up-form";
 
 // hooks
-import { useAuthForm } from "@/lib/hooks/useAuthForm";
+import { useAuthForm } from "../lib/hooks/useAuthForm";
 
 export default function AuthForm() {
   const {

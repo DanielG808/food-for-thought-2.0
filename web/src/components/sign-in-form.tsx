@@ -2,7 +2,7 @@ import React from "react";
 import Button from "./ui/button";
 import InputOrTextarea from "./ui/input-or-textarea";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { AuthFormData, SignInFormData } from "@/lib/validations/authSchema";
+import { AuthFormData, SignInFormData } from "../lib/validations/authSchema";
 
 type SignInFormProps = {
   register: UseFormRegister<AuthFormData>;

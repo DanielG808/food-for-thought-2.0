@@ -1,5 +1,5 @@
-import AuthForm from "@/components/auth-form";
-import PageContentWrapper from "@/components/page-content-wrapper";
+import AuthForm from "../../components/auth-form";
+import PageContentWrapper from "../../components/page-content-wrapper";
 
 export default function SignInPage() {
   return (

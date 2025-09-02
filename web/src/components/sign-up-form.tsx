@@ -4,11 +4,11 @@ import InputOrTextarea from "./ui/input-or-textarea";
 import UsernameChecker from "./username-checker";
 
 // hooks
-import { useDebounce } from "@/lib/hooks/useDebounce";
-import { useUsernameCheck } from "@/lib/hooks/useUsernameCheck";
+import { useDebounce } from "../lib/hooks/useDebounce";
+import { useUsernameCheck } from "../lib/hooks/useUsernameCheck";
 
 // types
-import { SignUpFormData } from "@/lib/validations/authSchema";
+import { SignUpFormData } from "../lib/validations/authSchema";
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
 type SignUpFormProps = {
