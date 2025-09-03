@@ -7,10 +7,12 @@ import { PER_PAGE } from "../lib/constants/recipesPerPageLimit";
 export default async function Home({
   searchParams,
 }: {
-  searchParams?: { page?: string; perPage?: string };
+  searchParams?: Promise<{ page?: string; perPage?: string }>;
 }) {
-  const page = Math.max(1, Number(searchParams?.page ?? 1));
-  const perPage = Number(searchParams?.perPage ?? PER_PAGE);
+  const sp = await searchParams;
+
+  const page = Math.max(1, Number(sp?.page ?? 1));
+  const perPage = Number(sp?.perPage ?? PER_PAGE);
 
   const { items, totalPages } = await getRecipesPage({ page, perPage });
 
