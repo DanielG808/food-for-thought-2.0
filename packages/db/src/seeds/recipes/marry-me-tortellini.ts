@@ -3,7 +3,7 @@ import { SeedRecipe } from "../utils/recipes";
 export const marryMeTortellini: SeedRecipe = {
   title: "Marry Me Tortellini",
   description:
-    "A rich and comforting soup made with sun-dried tomatoes, cheese tortellini, spinach, and parmesan in a creamy broth.",
+    "Cheese tortellini made with sun-dried tomatoes, spinach, and parmesan in a rich and creamy sauce.",
   ingredients: [
     { name: "Olive oil", amount: "2", unit: "tbsp" },
     { name: "Garlic", amount: "6", unit: "cloves", notes: "minced" },

@@ -14,8 +14,6 @@ export default async function Home({
 
   const { items, totalPages } = await getRecipesPage({ page, perPage });
 
-  console.log(items);
-
   return (
     <PageContentWrapper className="flex flex-col items-center w-4/5 mx-auto my-10">
       <RecipeCardContainer recipes={items} />
