@@ -14,6 +14,7 @@ import {
 } from "../lib/utils/pagination";
 import Link from "next/link";
 import LeftArrowButtons from "./left-arrow-buttons";
+import PagesButtons from "./pages-buttons";
 
 type PaginatorProps = {
   currentPage: number;
@@ -49,26 +50,7 @@ export default function Paginator({
           prev={prev}
         />
 
-        {pages.map((p, i) =>
-          p === "..." ? (
-            <span
-              key={`dots-${i}`}
-              className="inline-flex items-center justify-center h-9 min-w-9 text-foreground/50"
-            >
-              <MoreHorizontal className="size-4" />
-            </span>
-          ) : (
-            <Link
-              key={`page-${p}-${i}`}
-              href={href(p)}
-              className={pagerButton({
-                state: p === currentPage ? "active" : "default",
-              })}
-            >
-              {p}
-            </Link>
-          )
-        )}
+        <PagesButtons href={href} pages={pages} currentPage={currentPage} />
 
         {isLast ? (
           <span className={pagerButton({ state: "disabled" })}>
