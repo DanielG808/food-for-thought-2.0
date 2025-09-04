@@ -10,32 +10,23 @@ import { formatLabel } from "../../lib/utils/formatLabel";
 
 type BaseVisualProps = {
   className?: string;
-  /** Override the auto label (derived from id/name) */
   label?: string;
-  /** Hide label for compact/search use-cases */
   showLabel?: boolean;
-  /** Provide a stable id when you want to link your own <label> or aria-describedby */
   id?: string;
-  /** Render error text and apply error ring */
   error?: string;
 };
 
-/** RHF mode (pass these to opt-in to RHF) */
 type RHFProps<TFieldValues extends FieldValues> = {
   register: UseFormRegister<TFieldValues>;
   name: Path<TFieldValues>;
   rules?: RegisterOptions<TFieldValues, Path<TFieldValues>>;
 };
 
-/** Standalone mode (no RHF required) */
 type StandaloneProps = {
-  /** Optional name (used for id/label if provided) */
   name?: string;
-  /** Controlled/Uncontrolled props */
   value?: string;
   defaultValue?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-  /** Convenience callback for just the string value */
   onValueChange?: (value: string) => void;
 };
 
@@ -69,14 +60,12 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
     showLabel = true,
     error,
     id: idProp,
-    // union rest:
     ...rest
   } = props as InputOrTextareaProps<TFieldValues>;
 
   const isRHF =
     "register" in rest && "name" in rest && typeof rest.register === "function";
 
-  // Compute id/name for a11y
   const autoId = React.useId();
   const id =
     idProp ??
@@ -91,7 +80,6 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
     "w-auto bg-background text-black/75 p-1 ring-1 ring-foreground-dark/15 focus:ring-2 focus:ring-foreground-dark/25 focus:outline-0 rounded-md";
   const errorRing = error ? "ring-red-500 focus:ring-red-500" : "";
 
-  // Build common props including RHF vs standalone handlers
   const buildCommon = (
     el: "input" | "textarea"
   ):

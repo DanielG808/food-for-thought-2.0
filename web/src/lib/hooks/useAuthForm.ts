@@ -1,26 +1,25 @@
-// web/src/lib/hooks/useAuthForm.ts
 import { useRouter } from "next/navigation";
 import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"; // CHANGED
-import { Path, Resolver, SubmitHandler, useForm } from "react-hook-form";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import {
   AuthFormData,
   SignInFormData,
-  signInSchema,
   SignUpFormData,
+  signInSchema,
   signUpSchema,
 } from "../validations/authSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  applyClerkErrorsToForm,
-  ClerkAPIError,
-  extractClerkErrors,
-  FieldMap,
-  mapClerkErrors,
-  signUpFieldMap,
-} from "../utils/mapClerkErrors";
+
 import { ensureUserInDb } from "../api/users";
 import { createDynamicZodResolver } from "../utils/createDynamicZodResolver";
+import { doSignIn, doSignUpCreate, verifyEmail } from "../utils/authService";
+import { applyClerkErrorBundle } from "../utils/applyErrors";
+import {
+  signInFieldMap,
+  signUpFieldMap,
+  signUpFieldMapLocal,
+} from "../constants/fieldMaps";
+import { resetModeSpecificFields } from "../utils/toggleAuthForm";
 
 export function useAuthForm() {
   const [formType, setFormType] = useState<"sign-in" | "sign-up">("sign-in");
@@ -58,15 +57,7 @@ export function useAuthForm() {
     []
   );
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    watch,
-    resetField,
-    setError,
-    clearErrors,
-  } = useForm<AuthFormData>({
+  const form = useForm<AuthFormData>({
     resolver,
     defaultValues: {
       username: "",
@@ -78,21 +69,25 @@ export function useAuthForm() {
     shouldUnregister: true,
   });
 
-  const signInFieldMap: FieldMap<"username" | "password"> = {
-    identifier: ["username"],
-    username: ["username"],
-    password: ["password"],
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    watch,
+    resetField,
+    setError,
+  } = form;
 
   const onSubmit: SubmitHandler<AuthFormData> = async (values) => {
     if (formType === "sign-in") {
       if (!authLoaded || !signInLoaded || !signIn) return;
 
       try {
-        const attempt = await signIn.create({
-          identifier: values.username.trim(),
-          password: (values as SignInFormData).password,
-        });
+        const attempt = await doSignIn(
+          signIn,
+          values.username,
+          (values as SignInFormData).password
+        );
 
         if (attempt.status === "complete") {
           await setActiveSignIn?.({ session: attempt.createdSessionId });
@@ -108,12 +103,11 @@ export function useAuthForm() {
         });
         return;
       } catch (error: unknown) {
-        const clerkErrors: ClerkAPIError[] = extractClerkErrors(error);
-        const mapped = mapClerkErrors(clerkErrors, signInFieldMap, "username");
-        applyClerkErrorsToForm<SignInFormData, Path<SignInFormData>>(
+        applyClerkErrorBundle<SignInFormData>(
           setError,
-          mapped as Partial<Record<Path<SignInFormData>, string>>
-        );
+          signInFieldMap,
+          "username"
+        )(error);
         return;
       }
     }
@@ -121,31 +115,30 @@ export function useAuthForm() {
     if (!authLoaded || !signUpLoaded || !signUp) return;
 
     try {
-      await signUp.create({
-        username: values.username.trim(),
-        emailAddress: (values as SignUpFormData).email.trim(),
-        password: (values as SignUpFormData).password,
-      });
+      await doSignUpCreate(
+        signUp,
+        values.username,
+        (values as SignUpFormData).email,
+        (values as SignUpFormData).password
+      );
 
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setPendingVerification({
         email: (values as SignUpFormData).email.trim(),
       });
       resetField("confirmPassword");
     } catch (error: unknown) {
-      const clerkErrors: ClerkAPIError[] = extractClerkErrors(error);
-      const mapped = mapClerkErrors(clerkErrors, signUpFieldMap, "username");
-      applyClerkErrorsToForm<SignUpFormData, Path<SignUpFormData>>(
+      applyClerkErrorBundle<SignUpFormData>(
         setError,
-        mapped as Partial<Record<Path<SignUpFormData>, string>>
-      );
+        signUpFieldMap,
+        "username"
+      )(error);
     }
   };
 
   async function verifyEmailCode() {
-    if (!signUpLoaded || !signUp) return; // CHANGED: also guard signUp existence
+    if (!signUpLoaded || !signUp) return;
     try {
-      const attempt = await signUp.attemptEmailAddressVerification({ code });
+      const attempt = await verifyEmail(signUp, code);
       if (attempt.status === "complete") {
         await setActiveSignUp?.({ session: attempt.createdSessionId });
         await ensureUserInDb();
@@ -157,21 +150,17 @@ export function useAuthForm() {
         message: "Verification not complete. Try again.",
       });
     } catch (error: unknown) {
-      const clerkErrors: ClerkAPIError[] = extractClerkErrors(error);
-      const mapped = mapClerkErrors(clerkErrors, { email: ["email"] }, "email");
-      applyClerkErrorsToForm<SignUpFormData, Path<SignUpFormData>>(
+      applyClerkErrorBundle<SignUpFormData>(
         setError,
-        mapped as Partial<Record<Path<SignUpFormData>, string>>
-      );
+        signUpFieldMapLocal,
+        "email"
+      )(error);
     }
   }
 
   function toggleForm() {
     setFormType((prev) => (prev === "sign-in" ? "sign-up" : "sign-in"));
-    clearErrors(); // NEW: drop stale errors on mode change
-    // Optional niceties: clear fields that aren't shared
-    resetField("email", { defaultValue: "" }); // NEW
-    resetField("confirmPassword", { defaultValue: "" }); // NEW
+    resetModeSpecificFields(form);
   }
 
   return {
