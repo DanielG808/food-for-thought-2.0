@@ -1,6 +1,6 @@
-import { prisma } from "@fft/db";
-import { recipeSchema } from "../../validations/recipeSchema";
+import { prisma } from "packages/db/src";
 import { PER_PAGE } from "../../constants/recipesPerPageLimit";
+import { recipeSchema } from "../../validations/recipeSchema";
 
 type GetRecipesPageArgs = {
   page?: number;
@@ -45,11 +45,4 @@ export async function getRecipesPage({
     hasPrevPage: page > 1,
     hasNextPage: page < totalPages,
   };
-}
-
-export async function getRecipeById(id: string) {
-  return prisma.recipe.findUnique({
-    where: { id },
-    include: { user: { select: { id: true, username: true } } },
-  });
 }
