@@ -1,7 +1,8 @@
+// web/src/lib/hooks/useAuthForm.ts
 import { useRouter } from "next/navigation";
 import { useAuth, useSignIn, useSignUp } from "@clerk/nextjs";
-import { useState } from "react";
-import { Path, SubmitHandler, useForm } from "react-hook-form";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"; // CHANGED
+import { Path, Resolver, SubmitHandler, useForm } from "react-hook-form";
 import {
   AuthFormData,
   SignInFormData,
@@ -19,6 +20,7 @@ import {
   signUpFieldMap,
 } from "../utils/mapClerkErrors";
 import { ensureUserInDb } from "../api/users";
+import { createDynamicZodResolver } from "../utils/createDynamicZodResolver";
 
 export function useAuthForm() {
   const [formType, setFormType] = useState<"sign-in" | "sign-up">("sign-in");
@@ -43,6 +45,19 @@ export function useAuthForm() {
   } | null>(null);
   const [code, setCode] = useState("");
 
+  const formTypeRef = useRef(formType);
+  useEffect(() => {
+    formTypeRef.current = formType;
+  }, [formType]);
+
+  const resolver = useMemo(
+    () =>
+      createDynamicZodResolver<AuthFormData>(() =>
+        formTypeRef.current === "sign-in" ? signInSchema : signUpSchema
+      ),
+    []
+  );
+
   const {
     register,
     handleSubmit,
@@ -50,8 +65,9 @@ export function useAuthForm() {
     watch,
     resetField,
     setError,
+    clearErrors,
   } = useForm<AuthFormData>({
-    resolver: zodResolver(formType === "sign-in" ? signInSchema : signUpSchema),
+    resolver,
     defaultValues: {
       username: "",
       email: "",
@@ -59,6 +75,7 @@ export function useAuthForm() {
       confirmPassword: "",
     },
     mode: "onSubmit",
+    shouldUnregister: true,
   });
 
   const signInFieldMap: FieldMap<"username" | "password"> = {
@@ -67,9 +84,7 @@ export function useAuthForm() {
     password: ["password"],
   };
 
-  const onSubmit: SubmitHandler<AuthFormData> = async (
-    values: AuthFormData
-  ) => {
+  const onSubmit: SubmitHandler<AuthFormData> = async (values) => {
     if (formType === "sign-in") {
       if (!authLoaded || !signInLoaded || !signIn) return;
 
@@ -103,7 +118,7 @@ export function useAuthForm() {
       }
     }
 
-    if (!authLoaded || !signUpLoaded) return;
+    if (!authLoaded || !signUpLoaded || !signUp) return;
 
     try {
       await signUp.create({
@@ -128,14 +143,12 @@ export function useAuthForm() {
   };
 
   async function verifyEmailCode() {
-    if (!signUpLoaded) return;
+    if (!signUpLoaded || !signUp) return; // CHANGED: also guard signUp existence
     try {
       const attempt = await signUp.attemptEmailAddressVerification({ code });
       if (attempt.status === "complete") {
         await setActiveSignUp?.({ session: attempt.createdSessionId });
-
         await ensureUserInDb();
-
         router.push("/");
         return;
       }
@@ -155,6 +168,10 @@ export function useAuthForm() {
 
   function toggleForm() {
     setFormType((prev) => (prev === "sign-in" ? "sign-up" : "sign-in"));
+    clearErrors(); // NEW: drop stale errors on mode change
+    // Optional niceties: clear fields that aren't shared
+    resetField("email", { defaultValue: "" }); // NEW
+    resetField("confirmPassword", { defaultValue: "" }); // NEW
   }
 
   return {
