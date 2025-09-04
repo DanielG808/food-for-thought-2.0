@@ -1,6 +1,7 @@
 import PageContentWrapper from "../components/page-content-wrapper";
 import Paginator from "../components/paginator";
 import RecipeCardContainer from "../components/recipe-card-container";
+import SearchBar from "../components/search-bar";
 import { getRecipesPage } from "../lib/api/recipes/getRecipesPage";
 import { PER_PAGE } from "../lib/constants/recipesPerPageLimit";
 
@@ -18,6 +19,7 @@ export default async function Home({
 
   return (
     <PageContentWrapper className="flex flex-col items-center w-4/5 mx-auto my-10">
+      <SearchBar />
       <RecipeCardContainer recipes={items} />
       <Paginator currentPage={page} totalPages={totalPages} />
     </PageContentWrapper>
