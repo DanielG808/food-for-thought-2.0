@@ -13,6 +13,7 @@ import {
   pagerButton,
 } from "../lib/utils/pagination";
 import Link from "next/link";
+import LeftArrowButtons from "./left-arrow-buttons";
 
 type PaginatorProps = {
   currentPage: number;
@@ -41,25 +42,12 @@ export default function Paginator({
   return (
     <nav className={cn("flex justify-center mt-10", className)}>
       <div className="flex items-center gap-2 rounded-2xl bg-background px-2 py-2 shadow-sm">
-        {isFirst ? (
-          <span className={pagerButton({ state: "disabled" })}>
-            <ChevronsLeft className="size-4" />
-          </span>
-        ) : (
-          <Link href={href(first)} className={pagerButton()}>
-            <ChevronsLeft className="size-4" />
-          </Link>
-        )}
-
-        {isFirst ? (
-          <span className={pagerButton({ state: "disabled" })}>
-            <ChevronLeft className="size-4" />
-          </span>
-        ) : (
-          <Link href={href(prev)} className={pagerButton()}>
-            <ChevronLeft className="size-4" />
-          </Link>
-        )}
+        <LeftArrowButtons
+          href={href}
+          isFirst={isFirst}
+          first={first}
+          prev={prev}
+        />
 
         {pages.map((p, i) =>
           p === "..." ? (
