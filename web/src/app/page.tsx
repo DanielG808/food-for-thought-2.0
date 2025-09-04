@@ -1,7 +1,7 @@
 import PageContentWrapper from "../components/page-content-wrapper";
 import Paginator from "../components/paginator";
 import RecipeCardContainer from "../components/recipe-card-container";
-import { getRecipesPage } from "../lib/api/recipes/recipes";
+import { getRecipesPage } from "../lib/api/recipes/getRecipesPage";
 import { PER_PAGE } from "../lib/constants/recipesPerPageLimit";
 
 export default async function Home({
