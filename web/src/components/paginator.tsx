@@ -1,20 +1,16 @@
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-  MoreHorizontal,
-} from "lucide-react";
+// components
+
+import LeftArrowButtons from "./left-arrow-buttons";
+import PagesButtons from "./pages-buttons";
+import RightArrowButtons from "./right-arrow-buttons";
+
+// helpers
 import { cn } from "../lib/utils/cn";
 import {
   buildPages,
   makePageHrefFactory,
   navTargets,
-  pagerButton,
 } from "../lib/utils/pagination";
-import Link from "next/link";
-import LeftArrowButtons from "./left-arrow-buttons";
-import PagesButtons from "./pages-buttons";
 
 type PaginatorProps = {
   currentPage: number;
@@ -52,25 +48,12 @@ export default function Paginator({
 
         <PagesButtons href={href} pages={pages} currentPage={currentPage} />
 
-        {isLast ? (
-          <span className={pagerButton({ state: "disabled" })}>
-            <ChevronRight className="size-4" />
-          </span>
-        ) : (
-          <Link href={href(next)} className={pagerButton()}>
-            <ChevronRight className="size-4" />
-          </Link>
-        )}
-
-        {isLast ? (
-          <span className={pagerButton({ state: "disabled" })}>
-            <ChevronsRight className="size-4" />
-          </span>
-        ) : (
-          <Link href={href(last)} className={pagerButton()}>
-            <ChevronsRight className="size-4" />
-          </Link>
-        )}
+        <RightArrowButtons
+          href={href}
+          isLast={isLast}
+          last={last}
+          next={next}
+        />
       </div>
     </nav>
   );

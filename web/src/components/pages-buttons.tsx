@@ -1,6 +1,6 @@
 import { MoreHorizontal } from "lucide-react";
 import { pagerButton, PageToken } from "../lib/utils/pagination";
-import Link, { LinkProps } from "next/link";
+import Link, { type LinkProps } from "next/link";
 
 type PagesButtonsProps = {
   href: (page: number) => LinkProps["href"];
