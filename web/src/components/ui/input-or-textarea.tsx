@@ -14,6 +14,10 @@ type BaseVisualProps = {
   showLabel?: boolean;
   id?: string;
   error?: string;
+
+  layout?: "vertical" | "horizontal";
+  labelClassName?: string;
+  controlClassName?: string;
 };
 
 type RHFProps<TFieldValues extends FieldValues> = {
@@ -51,6 +55,12 @@ type InputOrTextareaProps<TFieldValues extends FieldValues> = BaseVisualProps &
   (RHFProps<TFieldValues> | StandaloneProps) &
   (InputVariantProps | TextareaVariantProps);
 
+function isRHFProps<T extends FieldValues>(val: unknown): val is RHFProps<T> {
+  if (!val || typeof val !== "object") return false;
+  const maybe = val as Partial<RHFProps<T>>;
+  return typeof maybe.register === "function" && typeof maybe.name === "string";
+}
+
 export default function InputOrTextarea<TFieldValues extends FieldValues>(
   props: InputOrTextareaProps<TFieldValues>
 ) {
@@ -60,18 +70,20 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
     showLabel = true,
     error,
     id: idProp,
+    layout = "vertical",
+    labelClassName,
+    controlClassName,
     ...rest
   } = props as InputOrTextareaProps<TFieldValues>;
 
-  const isRHF =
-    "register" in rest && "name" in rest && typeof rest.register === "function";
+  const isRHF = isRHFProps<TFieldValues>(rest);
 
   const autoId = React.useId();
   const id =
     idProp ??
     (isRHF
-      ? String(rest.name)
-      : ("name" in rest && rest.name) || `io-${autoId}`);
+      ? String((rest as RHFProps<TFieldValues>).name)
+      : ("name" in rest && (rest as StandaloneProps).name) || `io-${autoId}`);
 
   const computedLabel = label ?? (id ? formatLabel(id) : undefined);
   const describedBy = error ? `${id}-error` : undefined;
@@ -80,12 +92,14 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
     "w-auto bg-background text-black/75 p-1 ring-1 ring-foreground-dark/15 focus:ring-2 focus:ring-foreground-dark/25 focus:outline-0 rounded-md";
   const errorRing = error ? "ring-red-500 focus:ring-red-500" : "";
 
-  const buildCommon = (
-    el: "input" | "textarea"
-  ):
-    | (React.InputHTMLAttributes<HTMLInputElement> &
-        React.TextareaHTMLAttributes<HTMLTextAreaElement>)
-    | {} => {
+  // Overloads so TS knows the return type based on the arg
+  function buildCommon(
+    _el: "input"
+  ): React.InputHTMLAttributes<HTMLInputElement>;
+  function buildCommon(
+    _el: "textarea"
+  ): React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+  function buildCommon(_el: "input" | "textarea") {
     if (isRHF) {
       const { register, name, rules } = rest as RHFProps<TFieldValues>;
       return {
@@ -98,12 +112,14 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
     } else {
       const { name, value, defaultValue, onChange, onValueChange } =
         rest as StandaloneProps;
+
       const handleChange: React.ChangeEventHandler<
         HTMLInputElement | HTMLTextAreaElement
       > = (e) => {
         onChange?.(e);
         onValueChange?.(e.currentTarget.value);
       };
+
       return {
         id,
         name,
@@ -115,21 +131,36 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
         spellCheck: false,
       };
     }
-  };
+  }
+
+  const rowClasses = cn(
+    "flex gap-2",
+    layout === "vertical" ? "flex-col" : "flex-row items-center"
+  );
 
   if ("type" in rest && rest.type === "textarea") {
     const { textareaProps } = rest as TextareaVariantProps;
     return (
-      <div className="flex flex-col space-y-1">
-        {showLabel && computedLabel && (
-          <label htmlFor={id}>{computedLabel}:</label>
-        )}
+      <div className="flex flex-col gap-1">
+        <div className={rowClasses}>
+          {showLabel && computedLabel && (
+            <label
+              htmlFor={id}
+              className={cn(
+                layout === "horizontal" ? "min-w-28 shrink-0" : "",
+                labelClassName
+              )}
+            >
+              {computedLabel}:
+            </label>
+          )}
 
-        <textarea
-          className={cn(base, errorRing, className)}
-          {...buildCommon("textarea")}
-          {...textareaProps}
-        />
+          <textarea
+            className={cn(base, errorRing, controlClassName, className)}
+            {...buildCommon("textarea")}
+            {...textareaProps}
+          />
+        </div>
 
         {error && (
           <span id={describedBy} className="text-sm text-red-600">
@@ -141,18 +172,29 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
   }
 
   const { inputType = "text", inputProps } = rest as InputVariantProps;
-  return (
-    <div className="flex flex-col space-y-1">
-      {showLabel && computedLabel && (
-        <label htmlFor={id}>{computedLabel}:</label>
-      )}
 
-      <input
-        type={inputType}
-        className={cn(base, errorRing, className)}
-        {...buildCommon("input")}
-        {...inputProps}
-      />
+  return (
+    <div className="flex flex-col gap-1">
+      <div className={rowClasses}>
+        {showLabel && computedLabel && (
+          <label
+            htmlFor={id}
+            className={cn(
+              layout === "horizontal" ? "min-w-28 shrink-0" : "",
+              labelClassName
+            )}
+          >
+            {computedLabel}:
+          </label>
+        )}
+
+        <input
+          type={inputType}
+          className={cn(base, errorRing, controlClassName, className)}
+          {...buildCommon("input")}
+          {...inputProps}
+        />
+      </div>
 
       {error && (
         <span id={describedBy} className="text-sm text-red-600">
