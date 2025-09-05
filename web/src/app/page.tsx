@@ -18,10 +18,12 @@ export default async function Home({
 
   const { items, totalPages } = await getRecipesPage({ page, perPage, q });
 
+  const showsNoMatches = q.trim() !== "" && items.length === 0;
+
   return (
     <PageContentWrapper className="flex flex-col items-center w-4/5 mx-auto my-10">
       <SearchBar />
-      <RecipeCardContainer recipes={items} />
+      <RecipeCardContainer recipes={items} showsNoMatches={showsNoMatches} />
       <Paginator currentPage={page} totalPages={totalPages} />
     </PageContentWrapper>
   );

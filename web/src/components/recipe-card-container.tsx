@@ -6,12 +6,19 @@ import { Recipe } from "../lib/validations/recipeSchema";
 
 type RecipeCardContainerProps = {
   recipes: Recipe[];
+  showsNoMatches: boolean;
 };
 
 export default function RecipeCardContainer({
   recipes,
+  showsNoMatches,
 }: RecipeCardContainerProps) {
-  return (
+  return showsNoMatches ? (
+    <p className="border border-foreground-dark/45 bg-foreground-dark/10 text-black/65 p-3 rounded-md">
+      There aren&apos;t any recipes that match your search query! Try entering a
+      new one.
+    </p>
+  ) : (
     <motion.ul
       className="grid grid-cols-3 gap-4"
       initial="hidden"
