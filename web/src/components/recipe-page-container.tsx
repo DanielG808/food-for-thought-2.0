@@ -1,4 +1,5 @@
 import { getRecipeById } from "../lib/api/recipes/getRecipeById";
+import RecipeByLine from "./recipe-by-line";
 import RecipePageCookingSteps from "./recipe-page-cooking-steps";
 import RecipePageHeader from "./recipe-page-header";
 import RecipePageIngredients from "./recipe-page-ingredients";
@@ -25,6 +26,7 @@ export default async function RecipePageContainer({
         />
         <RecipePageIngredients ingredients={recipe.ingredients} />
         <RecipePageCookingSteps steps={recipe.body.steps} />
+        <RecipeByLine author={recipe.user.username} />
       </section>
     )
   );
