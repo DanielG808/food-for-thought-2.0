@@ -44,3 +44,5 @@ export const recipeWithAuthorSchema = recipeSchema.extend({
 
 export type Recipe = z.infer<typeof recipeSchema>;
 export type RecipeFormData = z.infer<typeof recipeCreateSchema>;
+
+export type Ingredient = z.infer<typeof ingredientSchema>;
