@@ -5,6 +5,7 @@ import InputOrTextarea from "./ui/input-or-textarea";
 import { useEffect, useState, useTransition } from "react";
 import { useDebounce } from "../lib/hooks/useDebounce";
 import { cn } from "../lib/utils/cn";
+import { useSearchBar } from "../lib/hooks/useSearchBar";
 
 type SearchBarProps = {
   defaultValue?: string;
@@ -15,40 +16,7 @@ export default function SearchBar({
   defaultValue = "",
   className,
 }: SearchBarProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const [, startTransition] = useTransition();
-
-  const [value, setValue] = useState(defaultValue);
-
-  useEffect(() => {
-    const qInUrl = searchParams.get("q") ?? "";
-    if (qInUrl !== value) setValue(qInUrl);
-    // eslint-disable-next-line
-  }, [searchParams]);
-
-  const debounced = useDebounce(value, 300);
-
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (debounced.trim()) params.set("q", debounced);
-    else params.delete("q");
-
-    params.delete("page");
-
-    const nextUrl = params.size ? `${pathname}?${params}` : pathname;
-    const currentUrl = searchParams.size
-      ? `${pathname}?${searchParams}`
-      : pathname;
-
-    if (nextUrl === currentUrl) return;
-
-    startTransition(() => {
-      router.replace(nextUrl, { scroll: false });
-    });
-  }, [debounced, pathname, router, searchParams, startTransition]);
+  const { value, setValue } = useSearchBar(defaultValue);
 
   return (
     <div
