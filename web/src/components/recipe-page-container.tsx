@@ -17,12 +17,20 @@ export default async function RecipePageContainer({
 
   return (
     recipe && (
-      <section className="p-10">
+      <section className="mt-5 p-10">
         <RecipePageHeader
           title={recipe.title}
           description={recipe.description ?? ""}
         />
         <RecipePageIngredients ingredients={recipe.ingredients} />
+        <div className="my-10">
+          <h3 className="text-lg">Cooking steps:</h3>
+          <ul className="m-4 list-decimal text-foreground/85">
+            {recipe.body.steps.map((step, i) => (
+              <li key={`${step}-${i}`}>{step}</li>
+            ))}
+          </ul>
+        </div>
       </section>
     )
   );
