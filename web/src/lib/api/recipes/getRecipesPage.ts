@@ -1,4 +1,4 @@
-import { prisma } from "packages/db/src";
+import { prisma } from "../../../../../packages/db/src/index";
 import { PER_PAGE } from "../../constants/recipesPerPageLimit";
 import { recipeSchema } from "../../validations/recipeSchema";
 
