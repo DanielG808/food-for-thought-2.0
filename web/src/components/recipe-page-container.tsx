@@ -1,4 +1,5 @@
 import { getRecipeById } from "../lib/api/recipes/getRecipeById";
+import RecipePageCookingSteps from "./recipe-page-cooking-steps";
 import RecipePageHeader from "./recipe-page-header";
 import RecipePageIngredients from "./recipe-page-ingredients";
 
@@ -23,14 +24,7 @@ export default async function RecipePageContainer({
           description={recipe.description ?? ""}
         />
         <RecipePageIngredients ingredients={recipe.ingredients} />
-        <div className="my-10">
-          <h3 className="text-lg">Cooking steps:</h3>
-          <ul className="m-4 list-decimal text-foreground/85">
-            {recipe.body.steps.map((step, i) => (
-              <li key={`${step}-${i}`}>{step}</li>
-            ))}
-          </ul>
-        </div>
+        <RecipePageCookingSteps steps={recipe.body.steps} />
       </section>
     )
   );
