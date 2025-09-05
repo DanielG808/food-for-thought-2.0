@@ -1,3 +1,7 @@
+import PageContentWrapper from "web/src/components/page-content-wrapper";
+import RecipePageContainer from "web/src/components/recipe-page-container";
+import UserRecipesContainer from "web/src/components/user-recipes-container";
+
 type MyRecipesPageProps = {
   searchParams: { userId?: string; recipeId?: string };
 };
@@ -7,12 +11,9 @@ export default function RecipesPage({ searchParams }: MyRecipesPageProps) {
   const recipeId = searchParams.recipeId;
 
   return (
-    <div>
-      {userId && (
-        <h1>Recipes for {userId ? `User ${userId}` : "Unknown User"}</h1>
-      )}
-
-      {recipeId && <h1>Recipes number {recipeId ?? "Unknown recipe"}</h1>}
-    </div>
+    <PageContentWrapper>
+      <UserRecipesContainer userId={userId} />
+      <RecipePageContainer recipeId={recipeId} />
+    </PageContentWrapper>
   );
 }
