@@ -8,14 +8,15 @@ import { PER_PAGE } from "../lib/constants/recipesPerPageLimit";
 export default async function Home({
   searchParams,
 }: {
-  searchParams?: Promise<{ page?: string; perPage?: string }>;
+  searchParams?: Promise<{ page?: string; perPage?: string; q?: string }>;
 }) {
   const sp = await searchParams;
 
   const page = Math.max(1, Number(sp?.page ?? 1));
   const perPage = Number(sp?.perPage ?? PER_PAGE);
+  const q = sp?.q ?? "";
 
-  const { items, totalPages } = await getRecipesPage({ page, perPage });
+  const { items, totalPages } = await getRecipesPage({ page, perPage, q });
 
   return (
     <PageContentWrapper className="flex flex-col items-center w-4/5 mx-auto my-10">

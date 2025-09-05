@@ -1,9 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import InputOrTextarea from "./ui/input-or-textarea";
-import { useEffect, useState, useTransition } from "react";
-import { useDebounce } from "../lib/hooks/useDebounce";
+
 import { cn } from "../lib/utils/cn";
 import { useSearchBar } from "../lib/hooks/useSearchBar";
 
