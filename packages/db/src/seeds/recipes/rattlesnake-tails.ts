@@ -1,7 +1,7 @@
 import { SeedRecipe } from "../utils/recipes";
 
 export const rattlesnakeTails: SeedRecipe = {
-  title: "Rattlesnake Tails (Hot Dog Appetizer)",
+  title: "Rattlesnake Tails",
   description:
     "Creative, smoky, and delicious hot dog bites seasoned with chili spices, smoked on the grill, and finished with a sweet BBQ glaze.",
   ingredients: [
