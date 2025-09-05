@@ -1,5 +1,5 @@
 import { getRecipeById } from "../lib/api/recipes/getRecipeById";
-import ShareButton from "./share-button";
+import RecipePageHeader from "./recipe-page-header";
 
 type RecipePageContainerProps = {
   recipeId: string | undefined;
@@ -15,13 +15,10 @@ export default async function RecipePageContainer({
   return (
     recipe && (
       <section className="p-10">
-        <header className="flex justify-between">
-          <div className="flex flex-col w-[600px] space-y-4">
-            <h1 className="text-3xl">{recipe.title}</h1>
-            <h2 className="text-xl text-foreground/50">{recipe.description}</h2>
-          </div>
-          <ShareButton />
-        </header>
+        <RecipePageHeader
+          title={recipe.title}
+          description={recipe.description ?? ""}
+        />
       </section>
     )
   );
