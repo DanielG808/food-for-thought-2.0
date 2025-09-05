@@ -1,5 +1,5 @@
 import { getRecipeById } from "../lib/api/recipes/getRecipeById";
-import Button from "./ui/button";
+import ShareButton from "./share-button";
 
 type RecipePageContainerProps = {
   recipeId: string | undefined;
@@ -20,9 +20,7 @@ export default async function RecipePageContainer({
             <h1 className="text-3xl">{recipe.title}</h1>
             <h2 className="text-xl text-foreground/50">{recipe.description}</h2>
           </div>
-          <div className="flex items-end">
-            <Button className="h-10">Share</Button>
-          </div>
+          <ShareButton />
         </header>
       </section>
     )
