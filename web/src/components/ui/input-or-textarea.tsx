@@ -92,6 +92,7 @@ export default function InputOrTextarea<TFieldValues extends FieldValues>(
     "w-auto bg-background text-black/75 p-1 ring-1 ring-foreground-dark/15 focus:ring-2 focus:ring-foreground-dark/25 focus:outline-0 rounded-md";
   const errorRing = error ? "ring-red-500 focus:ring-red-500" : "";
 
+  // Overloads so TS knows the return type based on the arg
   function buildCommon(
     _el: "input"
   ): React.InputHTMLAttributes<HTMLInputElement>;
