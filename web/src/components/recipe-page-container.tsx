@@ -1,9 +1,15 @@
+import { getRecipeById } from "../lib/api/recipes/getRecipeById";
+
 type RecipePageContainerProps = {
   recipeId: string | undefined;
 };
 
-export default function RecipePageContainer({
+export default async function RecipePageContainer({
   recipeId,
 }: RecipePageContainerProps) {
-  return recipeId && <h1>Recipes number {recipeId ?? "Unknown recipe"}</h1>;
+  if (!recipeId) return null;
+
+  const recipe = await getRecipeById(recipeId);
+
+  return recipe && <h1>{recipe.title}</h1>;
 }
