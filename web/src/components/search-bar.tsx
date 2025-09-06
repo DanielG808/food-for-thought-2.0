@@ -20,7 +20,7 @@ export default function SearchBar({
   return (
     <div
       className={cn(
-        "flex mb-10 p-4 w-3/5 border border-foreground-dark/15 bg-background-dark/45 rounded-md",
+        "flex mb-10 p-4 space-x-2 border border-foreground-dark/15 bg-background-dark/45 rounded-md",
         className
       )}
     >
@@ -29,7 +29,7 @@ export default function SearchBar({
         layout="horizontal"
         value={value}
         onValueChange={setValue}
-        className="w-full"
+        className="w-96"
       />
       <RefreshButton />
     </div>
