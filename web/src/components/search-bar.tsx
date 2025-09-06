@@ -4,6 +4,7 @@ import InputOrTextarea from "./ui/input-or-textarea";
 
 import { cn } from "../lib/utils/cn";
 import { useSearchBar } from "../lib/hooks/useSearchBar";
+import RefreshButton from "./refresh-button";
 
 type SearchBarProps = {
   defaultValue?: string;
@@ -19,7 +20,7 @@ export default function SearchBar({
   return (
     <div
       className={cn(
-        "mb-10 p-4 w-3/5  border border-foreground-dark/15 bg-background-dark/45 rounded-md",
+        "flex mb-10 p-4 w-3/5 border border-foreground-dark/15 bg-background-dark/45 rounded-md",
         className
       )}
     >
@@ -30,6 +31,7 @@ export default function SearchBar({
         onValueChange={setValue}
         className="w-full"
       />
+      <RefreshButton />
     </div>
   );
 }
